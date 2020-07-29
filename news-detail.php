@@ -3,7 +3,7 @@ require_once 'includes/lib.php';
 global $active_tab;
 
 if (!isset($_GET['id'])) {
-    header('Location: 404.php');
+    header('Location: 404.html');
     die();
 }
 else {

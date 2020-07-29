@@ -33,8 +33,7 @@ include 'includes/template_header.php'
                         <img class="category__image" src="';
                     if (file_exists('includes/img/' . $categories[$i]['image'])) {
                         echo 'includes/img/' . $categories[$i]['image'];
-                    }
-                    else {
+                    } else {
                         echo 'includes/img/default.jpg';
                     }
                     echo '" alt="' . $categories[$i]['name'] . '">

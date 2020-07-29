@@ -9,8 +9,8 @@ $sql = "SELECT id, header, date FROM news ORDER BY date DESC";
 
 if (!$conn->connect_error) {
     if (isset($_GET['page'])) {
-        $current_page = $_GET['page'];
-        if ($current_page > 0) { // но только если пользователь не написал чушь а-ля "&page=-1"
+        $current_page = htmlspecialchars($_GET['page']);
+        if ($current_page > 0) {
             $sql = $sql . " LIMIT " . ($current_page - 1) * $params['news_on_page'] .
                 ", " . $params['news_on_page'];
         }

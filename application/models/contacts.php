@@ -49,18 +49,18 @@ if ($_POST) { // если форма была отправлена
             $conn->query(
                 "INSERT INTO feedback (name, email, phone, message) VALUES
                         ('"
-                . $_POST['feedback-author'] . "', '"
-                . $_POST['email'] . "', '"
-                . $_POST['phone'] . "', '"
-                . $_POST['feedback-text'] .
+                . htmlspecialchars($_POST['feedback-author']) . "', '"
+                . htmlspecialchars($_POST['email']) . "', '"
+                . htmlspecialchars($_POST['phone']) . "', '"
+                . htmlspecialchars($_POST['feedback-text']) .
                 "')");
         } else {
             $conn->query(
                 "INSERT INTO feedback (name, email, message) VALUES
                         ('"
-                . $_POST['feedback-author'] . "', '"
-                . $_POST['email'] . "', '"
-                . $_POST['feedback-text'] .
+                . htmlspecialchars($_POST['feedback-author']) . "', '"
+                . htmlspecialchars($_POST['email']) . "', '"
+                . htmlspecialchars($_POST['feedback-text']) .
                 "')");
         }
     }

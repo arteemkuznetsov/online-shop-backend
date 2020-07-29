@@ -23,18 +23,15 @@ if (isset($_GET['id']) || isset($_GET['price_from']) || isset($_GET['price_to'])
     foreach ($_GET as $get_param => $value) {
         switch ($get_param) { // в зависимости от того, что это за параметр, добавляем условие в запрос
             case 'id':
-                $id = $_GET['id'];
+                $id = htmlspecialchars($_GET['id']);
                 $conditions[] = "categories.id = $id";
-
-                // ПРОВЕРКА НА СУЩЕСТВОВАНИЕ ЭТОЙ КАТЕГОРИИ
-
                 break;
             case 'price_from':
-                $price_from = $_GET['price_from'];
+                $price_from = htmlspecialchars($_GET['price_from']);
                 $conditions[] = "price >= $price_from";
                 break;
             case 'price_to':
-                $price_to = $_GET['price_to'];
+                $price_to = htmlspecialchars($_GET['price_to']);
                 $conditions[] = "price <= $price_to";
                 break;
             default: // если пользователь ввел в URL чушь, ничего не добавляем
@@ -49,21 +46,17 @@ $sql = $sql . " ORDER BY id DESC "; // вывод товаров от новых
 
 if (isset($_GET['page'])) { // LIMIT не должен быть связан WHERE или AND, конкатенируем его к концу запроса без лишних слов
     $current_page = $_GET['page'];
-    if ($current_page > 0) { // но только если пользователь снова не написал чушь а-ля "&page=-1"
+    if ($current_page > 0) { // но только если пользователь не написал чушь а-ля "&page=-1"
         $sql = $sql . " LIMIT " . ($current_page - 1) * $params['products_on_page'] .
             ", " . $params['products_on_page'];
-    }
-    else {
+    } else {
         $current_page = 1;
         $sql = $sql . ' LIMIT 0, ' . $params['products_on_page'];
     }
-}
-else { // если не указана страница, то она по умолчанию первая (товары 1-12)
+} else { // если не указана страница, то она по умолчанию первая (товары 1-12)
     $current_page = 1;
     $sql = $sql . " LIMIT 0, " . $params['products_on_page'];
 }
-
-// ЗАПОМНИТЬ ВСЕ ПАРАМЕТРЫ В $_GET КРОМЕ page
 
 if (!$conn->connect_error) {
     // получаем товары на одну страницу
@@ -101,6 +94,14 @@ if (!$conn->connect_error) {
             'date' => $row['date']
         );
     }
+
+    // а теперь кодируем в URL все параметры,
+    // кроме page (он все равно будет устанавливаться с новым значением при переходе на новую страницу)
+    // так мы запомним их при переходе на следующую страницу
+    if (isset($_GET['page'])) {
+        unset($_GET['page']);
+    }
+    $uri_query = http_build_query($_GET);
 }
 
 require_once 'application/views/catalog.php';

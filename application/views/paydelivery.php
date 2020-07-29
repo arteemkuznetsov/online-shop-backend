@@ -12,7 +12,7 @@ global $params;
     <link rel="alternate" href="https://allfont.ru/allfont.css?fonts=arial-narrow">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="includes/js/script.js"></script>
-    <title>Company - Интернет-магазин электронных сигарет</title>
+    <title>Company - Доставка и оплата</title>
 </head>
 
 <body>

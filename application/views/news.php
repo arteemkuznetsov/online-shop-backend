@@ -17,7 +17,7 @@ global $current_page;
     <link rel="alternate" href="https://allfont.ru/allfont.css?fonts=arial-narrow">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="includes/js/script.js"></script>
-    <title>Company - Интернет-магазин электронных сигарет</title>
+    <title>Company - Новости</title>
 </head>
 
 <body>
@@ -46,38 +46,28 @@ include 'includes/template_header.php'
                 }
                 ?>
             </ul>
-            <?php
-            /*for ($i = 0; $i < sizeof($products); $i++) {
-                echo '<li class="category good-piece">
-                <a class="category__link" href="product.php?id=' .  array_keys($products)[$i] . '">
-                    <img class="category__image good__image" src="includes/img/products/' . array_values($products)[$i]['image'] . '"
-                         alt="' . array_values($products)[$i]['name'] . '">
-                    <span class="category__name-container good_name"><span class="category__name-inner">' . array_values($products)[$i]['name'] . '</span></span>
-                </a>
-                <span class="good-price good_price">' . array_values($products)[$i]['price'] . ' <small class="good-price__currency">руб.</small></span>
-            </li>';
-            }*/
-            ?>
             <ul class="paginator catalog-page__paginator">
                 <?php
-                for ($i = 0; $i < $number_of_pages; $i++) {
-                    $practical_page = $i + 1; // фактическая страница. мы же не с нуля считаем, когда страницы видим?
-                    if ($practical_page != $current_page) { // нетекущая страница
-                        echo '<li class="paginator__elem"><a href="news.php?page=' . $practical_page . '" class="paginator__link">' . $practical_page . '</a></li>';
-                    } else { // текущая страница
-                        echo '<li class="paginator__elem paginator__elem_current"><a href="news.php" class="paginator__link">' . $practical_page . '</a></li>';
+                if ($number_of_pages > 0) {
+                    for ($i = 0; $i < $number_of_pages; $i++) {
+                        $practical_page = $i + 1; // фактическая страница. мы же не с нуля считаем, когда страницы видим?
+                        if ($practical_page != $current_page) { // нетекущая страница
+                            echo '<li class="paginator__elem"><a href="news.php?page=' . $practical_page . '" class="paginator__link">' . $practical_page . '</a></li>';
+                        } else { // текущая страница
+                            echo '<li class="paginator__elem paginator__elem_current"><a href="news.php?page=' . $current_page . '" class="paginator__link">' . $practical_page . '</a></li>';
+                        }
                     }
-                }
-                ?>
-                <li class="paginator__elem paginator__elem_next"><a
-                            href="news.php?page=<?php
+                    echo '<li class="paginator__elem paginator__elem_next"><a href="news.php?page=';
                     if ($current_page < $number_of_pages) {
                         echo ++$current_page;
                     } else {
                         echo $current_page;
                     }
-                    ?>" class="paginator__link">Следующая
-                        страница</a></li>
+                    // ГДЕ ТО ТУТ ЗАПОМИНАЕМ $QUERY
+                    echo '" class="paginator__link">Следующая
+                        страница</a></li>';
+                }
+                ?>
             </ul>
         </main>
         <div class="sidebar">

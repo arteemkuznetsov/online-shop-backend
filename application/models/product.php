@@ -2,9 +2,12 @@
 require_once 'includes/lib.php';
 global $conn;
 global $params;
+global $active_tab;
+
+$active_tab = 'catalog';
 
 function redirect404() {
-    header('Location: 404.php'); // REDIRECT 404.php
+    header('Location: 404.html'); // REDIRECT 404.html
     die();
 }
 
@@ -12,7 +15,7 @@ if (!isset($_GET['id'])) {
     redirect404();
 }
 
-$id = $_GET['id'];
+$id = htmlspecialchars($_GET['id']);
 $sql = "SELECT products.name, products.image, price, description, categories.id AS 'cat_id', categories.name AS 'category'
 	            FROM products
                 INNER JOIN categories
@@ -33,9 +36,8 @@ if (!$conn->connect_error) {
     }
 
     if (isset($_GET['cat_id'])) { // если был передан параметр cat_id
-        $category_id = $_GET['cat_id'];
+        $category_id = htmlspecialchars($_GET['cat_id']);
 
-        // проверяем на существование категории с таким именем - СДЕЛАТЬ ПОИСК В АССОЦИАТИВНОМ МАССИВЕ!!!!!!
         $category_exists_result = $conn->query("SELECT * FROM categories WHERE id = $category_id");
 
         if ($category_exists_result->num_rows > 0) { // если такая категория найдена

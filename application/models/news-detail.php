@@ -15,7 +15,7 @@ if (!$conn->connect_error) {
         }
     }
     else {
-        header('Location: 404.php');
+        header('Location: 404.html');
         die();
     }
     // наша модель должна знать, какие существуют категории, чтобы вьюшка их вывела

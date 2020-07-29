@@ -55,8 +55,14 @@ include 'includes/template_header.php'
                 for ($i = 0; $i < sizeof($products); $i++) {
                     echo '<li class="category good-piece">
                     <a class="category__link" href="product.php?id=' .  array_keys($products)[$i] . '">
-                        <img class="category__image good__image" src="includes/img/products/' . array_values($products)[$i]['image'] . '"
-                             alt="' . array_values($products)[$i]['name'] . '">
+                        <img class="category__image good__image" src="';
+                    if (file_exists('includes/img/products/' . array_values($products)[$i]['image'])) {
+                        echo 'includes/img/products/' . array_values($products)[$i]['image'];
+                    }
+                    else {
+                        echo 'includes/img/' . array_values($products)[$i]['image'];
+                    }
+                    echo '" alt="' . array_values($products)[$i]['name'] . '">
                         <span class="category__name-container good_name"><span class="category__name-inner">' . array_values($products)[$i]['name'] . '</span></span>
                     </a>
                     <span class="good-price good_price">' . array_values($products)[$i]['price'] . ' <small class="good-price__currency">руб.</small></span>
@@ -76,7 +82,14 @@ include 'includes/template_header.php'
                     }
                 }
                 ?>
-                <li class="paginator__elem paginator__elem_next"><a href="#" class="paginator__link">Следующая
+                <li class="paginator__elem paginator__elem_next"><a href="catalog.php?page=<?php
+                    if ($current_page < $number_of_pages) {
+                        echo ++$current_page;
+                    } else {
+                        echo $current_page;
+                    }
+                    // ГДЕ ТО ТУТ ЗАПОМИНАЕМ $QUERY
+                    ?>" class="paginator__link">Следующая
                         страница</a></li>
             </ul>
         </main>

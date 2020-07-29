@@ -1,6 +1,10 @@
 <?php
 global $news;
+global $news_aside;
 global $params;
+
+global $number_of_pages;
+global $current_page;
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -27,46 +31,52 @@ include 'includes/template_header.php'
             <nav class="bread-crumbs-container">
                 <ul class="bread-crumbs">
                     <li class="bread-crumb"><a class="bread-crumb__link" href="index.php">Главная</a></li>
-                    <li class="bread-crumb bread-crumb_current">Архив новостей</li>
+                    <li class="bread-crumb bread-crumb_current">Новости</li>
                 </ul>
             </nav>
-                <ul class="news-list">
-                    <?php
-                    for ($i = 0; $i < sizeof($news); $i++) {
-                        echo '<li class="news-item">
+            <ul class="news-list">
+                <?php
+                for ($i = 0; $i < sizeof($news); $i++) {
+                    echo '<li class="news-item">
                         <a class="news-item__link" href="news-detail.php?id=' . $news[$i]['id'] . '">
                             ' . $news[$i]['header'] . '
                         </a>
                         <span class="news-item__date">' . $news[$i]['date'] . '</span>
                     </li>';
-                    }
-                    ?>
-                </ul>
-                <?php
-                /*for ($i = 0; $i < sizeof($products); $i++) {
-                    echo '<li class="category good-piece">
-                    <a class="category__link" href="product.php?id=' .  array_keys($products)[$i] . '">
-                        <img class="category__image good__image" src="includes/img/products/' . array_values($products)[$i]['image'] . '"
-                             alt="' . array_values($products)[$i]['name'] . '">
-                        <span class="category__name-container good_name"><span class="category__name-inner">' . array_values($products)[$i]['name'] . '</span></span>
-                    </a>
-                    <span class="good-price good_price">' . array_values($products)[$i]['price'] . ' <small class="good-price__currency">руб.</small></span>
-                </li>';
-                }*/
+                }
                 ?>
+            </ul>
+            <?php
+            /*for ($i = 0; $i < sizeof($products); $i++) {
+                echo '<li class="category good-piece">
+                <a class="category__link" href="product.php?id=' .  array_keys($products)[$i] . '">
+                    <img class="category__image good__image" src="includes/img/products/' . array_values($products)[$i]['image'] . '"
+                         alt="' . array_values($products)[$i]['name'] . '">
+                    <span class="category__name-container good_name"><span class="category__name-inner">' . array_values($products)[$i]['name'] . '</span></span>
+                </a>
+                <span class="good-price good_price">' . array_values($products)[$i]['price'] . ' <small class="good-price__currency">руб.</small></span>
+            </li>';
+            }*/
+            ?>
             <ul class="paginator catalog-page__paginator">
                 <?php
-                /*for ($i = 0; $i < $number_of_pages; $i++) {
+                for ($i = 0; $i < $number_of_pages; $i++) {
                     $practical_page = $i + 1; // фактическая страница. мы же не с нуля считаем, когда страницы видим?
                     if ($practical_page != $current_page) { // нетекущая страница
-                        echo '<li class="paginator__elem"><a href="catalog.php?' . $query . '&page=' . $practical_page .'" class="paginator__link">' . $practical_page . '</a></li>';
+                        echo '<li class="paginator__elem"><a href="news.php?page=' . $practical_page . '" class="paginator__link">' . $practical_page . '</a></li>';
+                    } else { // текущая страница
+                        echo '<li class="paginator__elem paginator__elem_current"><a href="news.php" class="paginator__link">' . $practical_page . '</a></li>';
                     }
-                    else { // текущая страница
-                        echo '<li class="paginator__elem paginator__elem_current"><a href="catalog.php?' . $query .'" class="paginator__link">' . $practical_page . '</a></li>';
-                    }
-                }*/
+                }
                 ?>
-                <li class="paginator__elem paginator__elem_next"><a href="#" class="paginator__link">Следующая
+                <li class="paginator__elem paginator__elem_next"><a
+                            href="news.php?page=<?php
+                    if ($current_page < $number_of_pages) {
+                        echo ++$current_page;
+                    } else {
+                        echo $current_page;
+                    }
+                    ?>" class="paginator__link">Следующая
                         страница</a></li>
             </ul>
         </main>
@@ -87,10 +97,10 @@ include 'includes/template_header.php'
                     <?php
                     for ($i = 0; $i < $params['news_on_side']; $i++) {
                         echo '<li class="news-item">
-                        <a class="news-item__link" href="news-detail.php?id=' . $news[$i]['id'] . '">
-                            ' . $news[$i]['header'] . '
+                        <a class="news-item__link" href="news-detail.php?id=' . $news_aside[$i]['id'] . '">
+                            ' . $news_aside[$i]['header'] . '
                         </a>
-                        <span class="news-item__date">' . $news[$i]['date'] . '</span>
+                        <span class="news-item__date">' . $news_aside[$i]['date'] . '</span>
                     </li>';
                     }
                     ?>

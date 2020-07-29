@@ -29,7 +29,7 @@ include 'includes/template_header.php'
                 <ul class="bread-crumbs">
                     <li class="bread-crumb"><a class="bread-crumb__link" href="index.php">Главная</a></li>
                     <li class="bread-crumb"><a class="bread-crumb__link" href="catalog.php">Каталог</a></li>
-                    <li class="bread-crumb"><a class="bread-crumb__link" href="#"><?php echo $product_info['category'] ?></a></li>
+                    <li class="bread-crumb"><a class="bread-crumb__link" href="catalog.php?id=<?php echo $product_info['cat_id']?>"><?php echo $product_info['category'] ?></a></li>
                     <li class="bread-crumb bread-crumb_current"><?php echo $product_info['name'] ?></li>
                 </ul>
             </nav>

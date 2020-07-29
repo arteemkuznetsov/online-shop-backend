@@ -13,7 +13,7 @@ if (!isset($_GET['id'])) {
 }
 
 $id = $_GET['id'];
-$sql = "SELECT products.name, products.image, price, description, categories.name AS 'category'
+$sql = "SELECT products.name, products.image, price, description, categories.id AS 'cat_id', categories.name AS 'category'
 	            FROM products
                 INNER JOIN categories
 		            ON main_category_id = categories.id
@@ -52,6 +52,7 @@ if (!$conn->connect_error) {
 
             if ($product_in_category_result->num_rows > 0) { // если да, то меняем категорию по умолчанию на cat_id
                 while ($row = $category_exists_result->fetch_assoc()) {
+                    $product_info['cat_id'] = $row['id'];
                     $product_info['category'] = $row['name'];
                 }
             }
@@ -82,4 +83,5 @@ if (!$conn->connect_error) {
         );
     }
 }
+
 require_once 'application/views/product.php';

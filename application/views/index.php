@@ -30,7 +30,14 @@ include 'includes/template_header.php'
                 for ($i = 0; $i < sizeof($categories); $i++) {
                     echo '<li class="category">
                     <a class="category__link" href="catalog.php?id=' . $categories[$i]['id'] . '">
-                        <img class="category__image" src="includes/img/' . $categories[$i]['image'] . '" alt="category-image-1">
+                        <img class="category__image" src="';
+                    if (file_exists('includes/img/' . $categories[$i]['image'])) {
+                        echo 'includes/img/' . $categories[$i]['image'];
+                    }
+                    else {
+                        echo 'includes/img/default.jpg';
+                    }
+                    echo '" alt="' . $categories[$i]['name'] . '">
                         <span class="category__name-container"><span
                                     class="category__name-inner">' . $categories[$i]['name'] . '</span></span>
                     </a>

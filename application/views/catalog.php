@@ -14,13 +14,22 @@ include 'includes/template_header.php'
         <li class="bread-crumb bread-crumb_current">Каталог</li>
     </ul>
 </nav>
-<form action="catalog.php?<?php echo $uri_query ?>" class="search-filter" id="catalog-page__search-filter-1" method="get">
+<form action="catalog.php" class="search-filter" id="catalog-page__search-filter-1" method="get">
+    <?php
+    // при добавлении GET-параметров к адресу после отправки формы они стираются. приходится изобретать такое
+    // если выбрал категорию, а потом фильтруешь по цене в этой категории
+    $multiple_parameters = explode('&', $uri_query)[0];
+    $parameter = explode('=', $multiple_parameters);
+    // id всегда (если не писать в URL вручную) находится первым в списке параметров
+    if ($parameter[0] == 'id') : ?>
+        <input hidden name="id" value="<?php echo $parameter[1] ?>">
+    <?php endif; ?>
     <span class="search-filter__item">
         <label class="search-filter__label" for="cost-from">Цена</label>
         <input class="search-filter__input" step="0.01" type="number" min="0" name="price_from"
                id="cost-from" placeholder="от"
             <?php if ($price_from != 0): ?>
-               value="<?php echo $price_from ?>"
+                value="<?php echo $price_from ?>"
             <?php endif; ?>>
     </span>
     <span class="search-filter__item">
@@ -42,10 +51,10 @@ include 'includes/template_header.php'
                     <img class="category__image good__image"
                          src="
                                         <?php if (file_exists('assets/img/products/' . array_values($products)[$i]['image'])) :
-                        echo 'assets/img/products/' . array_values($products)[$i]['image'];
-                    else :
-                        echo 'assets/img/' . array_values($products)[$i]['image'];
-                    endif; ?>
+                             echo 'assets/img/products/' . array_values($products)[$i]['image'];
+                         else :
+                             echo 'assets/img/' . array_values($products)[$i]['image'];
+                         endif; ?>
                          " alt="<?php echo array_values($products)[$i]['name'] ?>">
                     <span class="category__name-container good_name"><span class="category__name-inner">
                                         <?php echo array_values($products)[$i]['name'] ?></span></span>

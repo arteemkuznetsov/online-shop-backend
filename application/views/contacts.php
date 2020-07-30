@@ -59,10 +59,12 @@ include 'includes/template_header.php'
     </tbody>
 </table>
 <section class="feedback-form">
+    <?php if (!isset($_SESSION['form_sent'])) : // если форму отправляли, скрываем всю инфу о ней ?>
     <h2 class="feedback-form__headline">Форма обратной связи</h2>
-    <p class="feedback-form__hint">
-        <span class="required-star">*</span> — обязательные для заполнения поля
-    </p>
+        <p class="feedback-form__hint">
+            <span class="required-star">*</span> — обязательные для заполнения поля
+        </p>
+    <?php endif; ?>
     <aside class="
                 <?php
     if ($answer) : // если форма была отправлена
@@ -73,58 +75,57 @@ include 'includes/template_header.php'
         endif;
     endif;
     ?>">
-        <p class="info-message">
-            <?php
-            if ($answer) {
-                echo $answer['message'];
-            }
-            ?>
-        </p>
+        <?php if ($answer) : ?>
+            <p class="info-message">
+                <?php echo $answer['message'] ?>
+            </p>
+        <?php endif; ?>
     </aside>
-    <form method="POST" class="registration-form" name="contats-page__feedback-form"
-          action="contacts.php">
-        <div class="feedback-form__row">
-            <label class="inner-label" for="feedback-author">
-                Имя <span class="required-star">*</span>
-            </label>
-            <input class="inner-input-box inner-input-box__name" type="text" name="feedback-author"
-                   id="feedback-author" maxlength="50">
-            <span class="error-text feedback-form__error-hint error-emptyness invisible">Поле «Имя» должно быть заполнено</span>
-        </div>
-        <div class="feedback-form__row">
-            <label class="inner-label" for="email">
-                Электронная почта <span class="required-star">*</span>
-            </label>
-            <input class="inner-input-box inner-input-box__email" type="email" name="email" id="email"
-                   maxlength="70">
-            <span class="error-text feedback-form__error-hint error-emptyness invisible">Поле «Электронная почта» должно
-								быть заполнено</span>
-        </div>
-        <div class="feedback-form__row">
-            <label class="inner-label optional" for="phone">
-                Телефон
-            </label>
-            <input class="inner-input-box" type="tel" name="phone" id="phone" maxlength="20">
-        </div>
-        <div class="feedback-form__row feedback-form__row_left-shift">
-            <label class="inner-label feedback-text-area__label" for="feedback-text">
-                Пожалуйста, укажите какого рода информация вас интересует <span
-                        class="required-star">*</span>
-            </label>
-            <textarea class="inner-input-box feedback-text-area__input" name="feedback-text"
-                      id="feedback-text"></textarea>
-            <div>
-                <input class="form-submit data-send" type="submit" value="Отправить">
-                <input class="form-submit clear-inputs" type="button" value="Очистить поля">
+    <?php if (!isset($_SESSION['form_sent'])) : // если мы не отправляли форму в этой сессии, показываем ее ?>
+        <form method="POST" class="registration-form" name="contats-page__feedback-form"
+              action="contacts.php">
+            <div class="feedback-form__row">
+                <label class="inner-label" for="feedback-author">
+                    Имя <span class="required-star">*</span>
+                </label>
+                <input class="inner-input-box inner-input-box__name" type="text" name="feedback-author"
+                       id="feedback-author"
+                       pattern="[a-zа-яA-ZА-Я]+" maxlength="50">
+                <span class="error-text feedback-form__error-hint error-emptyness invisible">Поле «Имя» должно быть заполнено</span>
             </div>
-        </div>
-    </form>
+            <div class="feedback-form__row">
+                <label class="inner-label" for="email">
+                    Электронная почта <span class="required-star">*</span>
+                </label>
+                <input class="inner-input-box inner-input-box__email" type="email" name="email" id="email"
+                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlength="70">
+                <span class="error-text feedback-form__error-hint error-emptyness invisible">Поле «Электронная почта» должно
+								быть заполнено</span>
+            </div>
+            <div class="feedback-form__row">
+                <label class="inner-label optional" for="phone">
+                    Телефон
+                </label>
+                <input class="inner-input-box" type="tel" name="phone" id="phone" maxlength="20">
+            </div>
+            <div class="feedback-form__row feedback-form__row_left-shift">
+                <label class="inner-label feedback-text-area__label" for="feedback-text">
+                    Пожалуйста, укажите какого рода информация вас интересует <span
+                            class="required-star">*</span>
+                </label>
+                <textarea class="inner-input-box feedback-text-area__input" name="feedback-text"
+                          id="feedback-text"></textarea>
+                <div>
+                    <input class="form-submit data-send" type="submit" value="Отправить">
+                    <input class="form-submit clear-inputs" type="button" value="Очистить поля">
+                </div>
+            </div>
+        </form>
+    <?php endif; ?>
 </section>
 <?php
-require_once 'includes/template_sidebar.php'
-?>
-<?php
-include 'includes/template_footer.php'
+require_once 'includes/template_sidebar.php';
+require_once 'includes/template_footer.php';
 ?>
 </body>
 </html>

@@ -9,6 +9,9 @@ $number_of_pages = 0;
 $current_page = 0;
 $uri_query = '';
 
+$price_from = 0;
+$price_to = 0;
+
 // запрос по умолчанию - вывод всех товаров без повторений. делаем запрос многих ко многим, поэтому DISTINCT
 $sql = "SELECT DISTINCT products.id, products.name, products.image, price
 	        FROM products_categories
@@ -36,7 +39,7 @@ if (isset($_GET['id']) || isset($_GET['price_from']) || isset($_GET['price_to'])
                 $price_to = htmlspecialchars($_GET['price_to']);
                 $conditions[] = "price <= $price_to";
                 break;
-            default: // если пользователь ввел в URL чушь, ничего не добавляем
+            default:
                 break;
         }
     }
@@ -45,8 +48,6 @@ if (isset($_GET['id']) || isset($_GET['price_from']) || isset($_GET['price_to'])
 }
 
 $sql = $sql . " ORDER BY id DESC "; // вывод товаров от новых к старым
-
-
 
 if (!$conn->connect_error) {
     // LIMIT не должен быть связан WHERE или AND, конкатенируем его к концу запроса без лишних слов

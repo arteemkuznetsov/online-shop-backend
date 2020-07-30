@@ -32,10 +32,8 @@ include 'includes/template_header.php'
     </article>
 </section>
 <?php
-require_once 'includes/template_sidebar.php'
-?>
-<?php
-include 'includes/template_footer.php'
+require_once 'includes/template_sidebar.php';
+require_once 'includes/template_footer.php';
 ?>
 </body>
 </html>

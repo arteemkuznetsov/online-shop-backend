@@ -24,39 +24,10 @@ include 'includes/template_header.php'
         </li>
     <?php endfor; ?>
 </ul>
-<ul class="paginator catalog-page__paginator">
-    <?php
-    if ($number_of_pages > 0) :
-        for ($i = 0; $i < $number_of_pages; $i++) :
-            $practical_page = $i + 1; // фактическая страница. мы же не с нуля считаем, когда страницы видим?
-            if ($practical_page != $current_page) : // нетекущая страница
-                ?>
-                <li class="paginator__elem">
-                    <a href="news.php?page=<?php echo $practical_page ?>"
-                       class="paginator__link">
-                        <?php echo $practical_page ?>
-                    </a>
-                </li>
-            <?php else : // текущая страница ?>
-                <li class="paginator__elem paginator__elem_current">
-                    <a href="news.php?page=<?php echo $current_page ?>"
-                       class="paginator__link">
-                        <?php echo $practical_page ?>
-                    </a>
-                </li>
-            <?php endif;
-        endfor; ?>
-        <?php
-        require_once 'includes/template_paginator.php'
-        ?>
-    <?php
-    endif; ?>
-</ul>
 <?php
-require_once 'includes/template_sidebar.php'
-?>
-<?php
-include 'includes/template_footer.php'
+require_once 'includes/template_paginator.php';
+require_once 'includes/template_sidebar.php';
+require_once 'includes/template_footer.php';
 ?>
 </body>
 </html>

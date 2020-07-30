@@ -20,10 +20,8 @@ include 'includes/template_header.php'
     <p><?php echo $news_info['description'] ?></p>
 </article>
 <?php
-require_once 'includes/template_sidebar.php'
-?>
-<?php
-include 'includes/template_footer.php'
+require_once 'includes/template_sidebar.php';
+require_once 'includes/template_footer.php';
 ?>
 </body>
 </html>

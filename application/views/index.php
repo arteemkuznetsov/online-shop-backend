@@ -29,7 +29,7 @@ include 'includes/template_header.php'
 </ul>
 <?php
 require_once 'includes/template_sidebar.php';
-include 'includes/template_footer.php'
+require_once 'includes/template_footer.php';
 ?>
 </body>
 </html>

@@ -30,10 +30,8 @@ include 'includes/template_header.php'
     <p><i>Также, Вы имеете возможность приобрести товары в нашем шоу-руме на м.Сходненская</i></p>
 </article>
 <?php
-require_once 'includes/template_sidebar.php'
-?>
-<?php
-include 'includes/template_footer.php'
+require_once 'includes/template_sidebar.php';
+require_once 'includes/template_footer.php';
 ?>
 </body>
 </html>

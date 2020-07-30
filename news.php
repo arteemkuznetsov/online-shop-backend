@@ -2,7 +2,6 @@
 
 if (isset($_GET['page']) && (int)$_GET['page'] <= 0) {
     header('Location: 404.html');
-    die();
 }
 else {
     $active_tab = 'news';

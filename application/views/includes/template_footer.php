@@ -1,3 +1,5 @@
+</div>
+</div>
 <footer class="page-footer">
     <div class="wrapper page-footer__wrapper">
         <div class="copyright">
@@ -12,7 +14,8 @@
                 <li class="footer-nav__list-item"><a class="footer-nav__link" href="catalog.php">Каталог</a></li>
                 <li class="footer-nav__list-item"><a class="footer-nav__link" href="about.php">О компании</a></li>
                 <li class="footer-nav__list-item"><a class="footer-nav__link" href="news.php">Новости</a></li>
-                <li class="footer-nav__list-item"><a class="footer-nav__link" href="paydelivery.php">Доставка и оплата</a></li>
+                <li class="footer-nav__list-item"><a class="footer-nav__link" href="paydelivery.php">Доставка и
+                        оплата</a></li>
                 <li class="footer-nav__list-item"><a class="footer-nav__link" href="contacts.php">Контакты</a></li>
             </ul>
         </nav>

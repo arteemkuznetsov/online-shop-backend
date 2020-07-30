@@ -90,3 +90,6 @@ global $active_tab;
         </div>
     </nav>
 </header>
+<div class="content <?php if ($active_tab == 'product') echo 'content__product' ?>">
+    <div class="wrapper content__wrapper">
+        <main class="<?php if ($active_tab == 'index') echo 'categories'; else echo 'inside-content' ?>">

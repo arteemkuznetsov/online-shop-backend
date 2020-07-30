@@ -1,11 +1,13 @@
 <?php
 require_once 'includes/lib.php';
-global $conn;
-global $params;
 
 $products = [];
 $categories = [];
 $news = [];
+
+$number_of_pages = 0;
+$current_page = 0;
+$uri_query = '';
 
 // запрос по умолчанию - вывод всех товаров без повторений. делаем запрос многих ко многим, поэтому DISTINCT
 $sql = "SELECT DISTINCT products.id, products.name, products.image, price
@@ -75,25 +77,7 @@ if (!$conn->connect_error) {
     $num_rows = $all_pages_result->num_rows;
     $number_of_pages = ceil($num_rows / $params['products_on_page']); // округляем вверх полученное число
 
-    // наша модель должна знать, какие существуют категории, чтобы вьюшка их вывела
-    $result = $conn->query("SELECT * FROM categories");
-    while ($row = $result->fetch_assoc()) {
-        $categories[] = array(
-            'id' => $row['id'],
-            'name' => $row['name'],
-            'image' => $row['image']
-        );
-    }
-
-    // наша модель должна знать новости
-    $result = $conn->query("SELECT id, header, date FROM news ORDER BY date DESC");
-    while ($row = $result->fetch_assoc()) {
-        $news[] = array(
-            'id' => $row['id'],
-            'header' => $row['header'],
-            'date' => $row['date']
-        );
-    }
+    get_news_and_categories();
 
     // а теперь кодируем в URL все параметры,
     // кроме page (он все равно будет устанавливаться с новым значением при переходе на новую страницу)

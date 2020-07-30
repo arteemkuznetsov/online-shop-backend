@@ -1,10 +1,8 @@
 <?php
 require_once 'includes/lib.php';
-global $conn;
-global $params;
 
+$news_main = [];
 $news = [];
-$news_aside = [];
 $sql = "SELECT id, header, date FROM news ORDER BY date DESC";
 
 if (!$conn->connect_error) {
@@ -25,8 +23,7 @@ if (!$conn->connect_error) {
     }
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
-        $news[] = array(
-            'id' => $row['id'],
+        $news_main[$row['id']] = array(
             'header' => $row['header'],
             'date' => $row['date']
         );
@@ -38,26 +35,7 @@ if (!$conn->connect_error) {
     $num_rows = $all_pages_result->num_rows;
     $number_of_pages = ceil($num_rows / $params['news_on_page']); // округляем вверх полученное число
 
-    // НОВОСТИ СБОКУ НЕ ДОЛЖНЫ ЗАВИСЕТЬ ОТ ОСНОВНЫХ НОВОСТЕЙ,
-    // В Т.Ч. ПРИ ПЕРЕЛИСТЫВАНИИ СТРАНИЦ ОНИ НЕ ДОЛЖНЫ ТАК ЖЕ ПЕРЕЛИСТЫВАТЬСЯ
-    $news_result = $conn->query("SELECT id, header, date FROM news ORDER BY date DESC");
-    while ($row = $news_result->fetch_assoc()) {
-        $news_aside[] = array(
-            'id' => $row['id'],
-            'header' => $row['header'],
-            'date' => $row['date']
-        );
-    }
-
-    // наша наша модель должна знать, какие существуют категории, чтобы вьюшка их вывела
-    $result = $conn->query("SELECT * FROM categories");
-    while ($row = $result->fetch_assoc()) {
-        $categories[] = array(
-            'id' => $row['id'],
-            'name' => $row['name'],
-            'image' => $row['image']
-        );
-    }
+    get_news_and_categories();
 }
 
 require_once 'application/views/news.php';

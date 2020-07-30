@@ -1,8 +1,5 @@
 <?php
 require_once 'includes/lib.php';
-global $conn;
-global $params;
-global $active_tab;
 
 $active_tab = 'catalog';
 
@@ -65,25 +62,8 @@ if (!$conn->connect_error) {
             redirect404();
         }
     }
-    // наша наша модель должна знать, какие существуют категории, чтобы вьюшка их вывела
-    $result = $conn->query("SELECT * FROM categories");
-    while ($row = $result->fetch_assoc()) {
-        $categories[] = array(
-            'id' => $row['id'],
-            'name' => $row['name'],
-            'image' => $row['image']
-        );
-    }
 
-    // наша модель должна знать новости
-    $result = $conn->query("SELECT id, header, date FROM news ORDER BY date DESC");
-    while ($row = $result->fetch_assoc()) {
-        $news[] = array(
-            'id' => $row['id'],
-            'header' => $row['header'],
-            'date' => $row['date']
-        );
-    }
+    get_news_and_categories();
 }
 
 require_once 'application/views/product.php';

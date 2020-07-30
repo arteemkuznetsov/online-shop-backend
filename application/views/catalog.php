@@ -20,7 +20,7 @@ include 'includes/template_header.php'
     // если выбрал категорию, а потом фильтруешь по цене в этой категории
     $multiple_parameters = explode('&', $uri_query)[0];
     $parameter = explode('=', $multiple_parameters);
-    // id всегда (если не писать в URL вручную) находится первым в списке параметров
+    // id всегда находится первым в списке параметров (если не писать в URL вручную)
     if ($parameter[0] == 'id') : ?>
         <input hidden name="id" value="<?php echo $parameter[1] ?>">
     <?php endif; ?>
@@ -49,8 +49,7 @@ include 'includes/template_header.php'
             <li class="category good-piece">
                 <a class="category__link" href="product.php?id=<?php echo array_keys($products)[$i] ?>">
                     <img class="category__image good__image"
-                         src="
-                                        <?php if (file_exists('assets/img/products/' . array_values($products)[$i]['image'])) :
+                         src="<?php if (file_exists('assets/img/products/' . array_values($products)[$i]['image'])) :
                              echo 'assets/img/products/' . array_values($products)[$i]['image'];
                          else :
                              echo 'assets/img/' . array_values($products)[$i]['image'];

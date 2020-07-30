@@ -25,11 +25,11 @@ if (isset($_GET['id']) || isset($_GET['price_from']) || isset($_GET['price_to'])
     foreach ($_GET as $get_param => $value) {
         switch ($get_param) { // в зависимости от того, что это за параметр, добавляем условие в запрос
             case 'id':
-                $id = htmlspecialchars($_GET['id']);
+                $id = (int)$_GET['id'];
                 $conditions[] = "categories.id = $id";
                 break;
             case 'price_from':
-                $price_from = htmlspecialchars($_GET['price_from']);
+                $price_from = (float)$_GET['price_from'];
                 $conditions[] = "price >= $price_from";
                 break;
             case 'price_to':
@@ -46,29 +46,23 @@ if (isset($_GET['id']) || isset($_GET['price_from']) || isset($_GET['price_to'])
 
 $sql = $sql . " ORDER BY id DESC "; // вывод товаров от новых к старым
 
-if (isset($_GET['page'])) { // LIMIT не должен быть связан WHERE или AND, конкатенируем его к концу запроса без лишних слов
-    $current_page = $_GET['page'];
-    if ($current_page > 0) { // но только если пользователь не написал чушь а-ля "&page=-1"
-        $sql = $sql . " LIMIT " . ($current_page - 1) * $params['products_on_page'] .
-            ", " . $params['products_on_page'];
-    } else {
-        $current_page = 1;
-        $sql = $sql . ' LIMIT 0, ' . $params['products_on_page'];
-    }
-} else { // если не указана страница, то она по умолчанию первая (товары 1-12)
-    $current_page = 1;
-    $sql = $sql . " LIMIT 0, " . $params['products_on_page'];
-}
+
 
 if (!$conn->connect_error) {
+    // LIMIT не должен быть связан WHERE или AND, конкатенируем его к концу запроса без лишних слов
+    if (isset($_GET['page'])) {
+        $current_page = (int)$_GET['page'];
+        $sql = $sql . " LIMIT " . ($current_page - 1) * $params['products_on_page'] . ", " . $params['products_on_page'];
+    }
+    else {
+        $current_page = 1;
+        $sql = $sql . " LIMIT 0, " . $params['products_on_page'];
+    }
+
     // получаем товары на одну страницу
     $one_page_result = $conn->query($sql);
     while ($row = $one_page_result->fetch_assoc()) {
-        $products[$row['id']] = array(
-            'name' => $row['name'],
-            'image' => $row['image'],
-            'price' => $row['price']
-        );
+        $products[$row['id']] = $row;
     }
     // получаем все товары по условию, чтобы узнать их количество и сделать пагинации - просто отщипываем LIMIT
     // находим подстроку, которая начинается со вхождения LIMIT, после чего удаляем ее из основной строки

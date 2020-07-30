@@ -1,17 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="assets/css/stylesheet.css">
-    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/png">
-    <link rel="alternate" href="https://allfont.ru/allfont.css?fonts=arial-narrow">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="assets/js/script.js"></script>
-    <title>Company - О компании</title>
-</head>
-
+<?php
+require_once 'includes/template_head.php'
+?>
 <body>
 <?php
 include 'includes/template_header.php'

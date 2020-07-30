@@ -7,20 +7,14 @@ $sql = "SELECT id, header, date FROM news ORDER BY date DESC";
 
 if (!$conn->connect_error) {
     if (isset($_GET['page'])) {
-        $current_page = htmlspecialchars($_GET['page']);
-        if ($current_page > 0) {
-            $sql = $sql . " LIMIT " . ($current_page - 1) * $params['news_on_page'] .
-                ", " . $params['news_on_page'];
-        }
-        else {
-            $current_page = 1;
-            $sql = $sql . " LIMIT 0, " . $params['news_on_page'];
-        }
+        $current_page = (int)$_GET['page'];
+        $sql = $sql . " LIMIT " . ($current_page - 1) * $params['news_on_page'] . ", " . $params['news_on_page'];
     }
-    else { // если не указана страница, то она по умолчанию первая (товары 1-12)
+    else {
         $current_page = 1;
         $sql = $sql . " LIMIT 0, " . $params['news_on_page'];
     }
+
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
         $news_main[$row['id']] = array(

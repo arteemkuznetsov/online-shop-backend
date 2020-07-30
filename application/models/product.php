@@ -1,8 +1,6 @@
 <?php
 require_once 'includes/lib.php';
 
-$active_tab = 'catalog';
-
 function redirect404() {
     header('Location: 404.html'); // REDIRECT 404.html
     die();

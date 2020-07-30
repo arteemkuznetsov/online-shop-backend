@@ -1,3 +1,9 @@
+<?php
+$seo = 'include_areas/' . $active_tab . '_seo.php';
+if (file_exists($seo)) {
+    require_once $seo;
+}
+?>
 </div>
 </div>
 <footer class="page-footer">
@@ -10,13 +16,9 @@
         </div>
         <nav class="footer-nav">
             <ul class="footer-nav__list">
-                <li class="footer-nav__list-item"><a class="footer-nav__link" href="index.php">Главная</a></li>
-                <li class="footer-nav__list-item"><a class="footer-nav__link" href="catalog.php">Каталог</a></li>
-                <li class="footer-nav__list-item"><a class="footer-nav__link" href="about.php">О компании</a></li>
-                <li class="footer-nav__list-item"><a class="footer-nav__link" href="news.php">Новости</a></li>
-                <li class="footer-nav__list-item"><a class="footer-nav__link" href="paydelivery.php">Доставка и
-                        оплата</a></li>
-                <li class="footer-nav__list-item"><a class="footer-nav__link" href="contacts.php">Контакты</a></li>
+                <?php foreach ($menu_items as $item): ?>
+                <li class="footer-nav__list-item"><a class="footer-nav__link" href="<?php echo $item['resource_name'] ?>.php"><?php echo $item['item_name'] ?></a></li>
+                <?php endforeach; ?>
             </ul>
         </nav>
         <div class="developer">

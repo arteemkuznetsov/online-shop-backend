@@ -52,75 +52,87 @@ include 'includes/template_header.php'
             </form>
             <ul class="categories categories__reposition">
                 <?php
-                if (sizeof($products) > 0) {
-                    for ($i = 0; $i < sizeof($products); $i++) {
-                        echo '<li class="category good-piece">
-                    <a class="category__link" href="product.php?id=' . array_keys($products)[$i] . '">
-                        <img class="category__image good__image" src="';
-                        if (file_exists('assets/img/products/' . array_values($products)[$i]['image'])) {
-                            echo 'assets/img/products/' . array_values($products)[$i]['image'];
-                        } else {
-                            echo 'assets/img/' . array_values($products)[$i]['image'];
-                        }
-                        echo '" alt="' . array_values($products)[$i]['name'] . '">
-                        <span class="category__name-container good_name"><span class="category__name-inner">' . array_values($products)[$i]['name'] . '</span></span>
-                    </a>
-                    <span class="good-price good_price">' . array_values($products)[$i]['price'] . ' <small class="good-price__currency">руб.</small></span>
-                </li>';
-                    }
-                } else {
+                if (sizeof($products) > 0) :
+                    for ($i = 0; $i < sizeof($products); $i++) : ?>
+                        <li class="category good-piece">
+                            <a class="category__link" href="product.php?id=<?php echo array_keys($products)[$i] ?>">
+                                <img class="category__image good__image" src="
+                                        <?php if (file_exists('assets/img/products/' . array_values($products)[$i]['image'])) :
+                                    echo 'assets/img/products/' . array_values($products)[$i]['image'];
+                                else :
+                                    echo 'assets/img/' . array_values($products)[$i]['image'];
+                                endif; ?>
+                                        " alt="<?php echo array_values($products)[$i]['name'] ?>">
+                                <span class="category__name-container good_name"><span class="category__name-inner">
+                                        <?php echo array_values($products)[$i]['name'] ?></span></span>
+                            </a>
+                            <span class="good-price good_price"><?php echo array_values($products)[$i]['price'] ?> <small
+                                        class="good-price__currency">руб.</small></span>
+                        </li>
+                    <?php endfor;
+                else :
                     echo '<p>Найдено 0 товаров</p>';
-                }
-                ?>
+                endif; ?>
             </ul>
             <ul class="paginator catalog-page__paginator">
                 <?php
-                if ($number_of_pages > 0) {
-                    for ($i = 0; $i < $number_of_pages; $i++) {
+                if ($number_of_pages > 0) :
+                    for ($i = 0; $i < $number_of_pages; $i++) :
                         $practical_page = $i + 1; // фактическая страница. мы же не с нуля считаем, когда страницы видим?
-                        if ($practical_page != $current_page) { // нетекущая страница
-                            echo '<li class="paginator__elem"><a href="catalog.php?' . $uri_query . '&page=' . $practical_page . '" class="paginator__link">' . $practical_page . '</a></li>';
-                        }
-                        else { // текущая страница
-                            echo '<li class="paginator__elem paginator__elem_current"><a href="catalog.php?' . $uri_query . '&page=' . $current_page . '" class="paginator__link">' . $practical_page . '</a></li>';
-                        }
-                    }
-                    echo '<li class="paginator__elem paginator__elem_next"><a href="catalog.php?' . $uri_query . '&page=';
-                    if ($current_page < $number_of_pages) {
-                        echo ++$current_page;
-                    } else {
-                        echo $current_page;
-                    }
-                    echo '" class="paginator__link">Следующая
-                        страница</a></li>';
-                }
-                ?>
+                        if ($practical_page != $current_page) : // нетекущая страница
+                            ?>
+                            <li class="paginator__elem">
+                                <a href="catalog.php?<?php echo $uri_query ?>&page=<?php echo $practical_page ?>"
+                                   class="paginator__link">
+                                    <?php echo $practical_page ?>
+                                </a>
+                            </li>
+                        <?php else : // текущая страница ?>
+                            <li class="paginator__elem paginator__elem_current">
+                                <a href="catalog.php?<?php echo $uri_query ?>&page=<?php echo $current_page ?>"
+                                   class="paginator__link">
+                                    <?php echo $practical_page ?>
+                                </a>
+                            </li>
+                        <?php endif;
+                    endfor; ?>
+                    <li class="paginator__elem paginator__elem_next">
+                        <a href="catalog.php?<?php echo $uri_query ?>&page=<?php
+                        if ($current_page < $number_of_pages) :
+                            echo ++$current_page;
+                        else :
+                            echo $current_page;
+                        endif;
+                        ?>
+                        " class="paginator__link">Следующая страница</a>
+                    </li>
+                <?php
+                endif; ?>
             </ul>
         </main>
         <div class="sidebar">
             <section class="catalog">
                 <h2 class="sidebar__headline">Каталог</h2>
                 <ul class="catalog-list">
-                    <?php
-                    for ($i = 0; $i < sizeof($categories); $i++) {
-                        echo '<li class="catalog-list__item"><a class="catalog-list__link" href="catalog.php?id=' . $categories[$i]['id'] . '">' . $categories[$i]['name'] . '</a></li>';
-                    }
-                    ?>
+                    <?php for ($i = 0; $i < sizeof($categories); $i++) : ?>
+                        <li class="catalog-list__item"><a class="catalog-list__link"
+                                                          href="catalog.php?id=<?php echo $categories[$i]['id'] ?>">
+                                <?php echo $categories[$i]['name'] ?></a>
+                        </li>
+                    <?php endfor; ?>
                 </ul>
             </section>
             <section class="news">
                 <h2 class="sidebar__headline news__headline">Новости</h2>
                 <ul class="news-list">
-                    <?php
-                    for ($i = 0; $i < $params['news_on_side']; $i++) {
-                        echo '<li class="news-item">
-                        <a class="news-item__link" href="news-detail.php?id=' . $news[$i]['id'] . '">
-                            ' . $news[$i]['header'] . '
-                        </a>
-                        <span class="news-item__date">' . $news[$i]['date'] . '</span>
-                    </li>';
-                    }
-                    ?>
+                    <?php for ($i = 0; $i < $params['news_on_side']; $i++) : ?>
+                        <li class="news-item">
+                            <a class="news-item__link" href="news-detail.php?id=<?php echo $news[$i]['id'] ?>">
+                                <?php echo $news[$i]['header'] ?>
+                            </a>
+                            <span class="news-item__date"><?php echo $news[$i]['date'] ?></span>
+                        </li>
+                    <?php endfor; ?>
                 </ul>
                 <span class="archive"><a class="archive__link" href="news.php">Архив новостей</a></span>
             </section>

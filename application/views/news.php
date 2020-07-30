@@ -35,65 +35,74 @@ include 'includes/template_header.php'
                 </ul>
             </nav>
             <ul class="news-list">
-                <?php
-                for ($i = 0; $i < sizeof($news); $i++) {
-                    echo '<li class="news-item">
-                        <a class="news-item__link" href="news-detail.php?id=' . $news[$i]['id'] . '">
-                            ' . $news[$i]['header'] . '
+                <?php for ($i = 0; $i < sizeof($news); $i++) : ?>
+                    <li class="news-item">
+                        <a class="news-item__link" href="news-detail.php?id=<?php echo $news[$i]['id'] ?>">
+                            <?php echo $news[$i]['header'] ?>
                         </a>
-                        <span class="news-item__date">' . $news[$i]['date'] . '</span>
-                    </li>';
-                }
-                ?>
+                        <span class="news-item__date"><?php echo $news[$i]['date'] ?></span>
+                    </li>
+                <?php endfor; ?>
             </ul>
             <ul class="paginator catalog-page__paginator">
                 <?php
-                if ($number_of_pages > 0) {
-                    for ($i = 0; $i < $number_of_pages; $i++) {
+                if ($number_of_pages > 0) :
+                    for ($i = 0; $i < $number_of_pages; $i++) :
                         $practical_page = $i + 1; // фактическая страница. мы же не с нуля считаем, когда страницы видим?
-                        if ($practical_page != $current_page) { // нетекущая страница
-                            echo '<li class="paginator__elem"><a href="news.php?page=' . $practical_page . '" class="paginator__link">' . $practical_page . '</a></li>';
-                        } else { // текущая страница
-                            echo '<li class="paginator__elem paginator__elem_current"><a href="news.php?page=' . $current_page . '" class="paginator__link">' . $practical_page . '</a></li>';
-                        }
-                    }
-                    echo '<li class="paginator__elem paginator__elem_next"><a href="news.php?page=';
-                    if ($current_page < $number_of_pages) {
-                        echo ++$current_page;
-                    } else {
-                        echo $current_page;
-                    }
-                    // ГДЕ ТО ТУТ ЗАПОМИНАЕМ $QUERY
-                    echo '" class="paginator__link">Следующая
-                        страница</a></li>';
-                }
-                ?>
+                        if ($practical_page != $current_page) : // нетекущая страница
+                            ?>
+                            <li class="paginator__elem">
+                                <a href="news.php?page=<?php echo $practical_page ?>"
+                                   class="paginator__link">
+                                    <?php echo $practical_page ?>
+                                </a>
+                            </li>
+                        <?php else : // текущая страница ?>
+                            <li class="paginator__elem paginator__elem_current">
+                                <a href="newsphp?page=<?php echo $current_page ?>"
+                                   class="paginator__link">
+                                    <?php echo $practical_page ?>
+                                </a>
+                            </li>
+                        <?php endif;
+                    endfor; ?>
+                    <li class="paginator__elem paginator__elem_next">
+                        <a href="news.php?&page=<?php
+                        if ($current_page < $number_of_pages) :
+                            echo ++$current_page;
+                        else :
+                            echo $current_page;
+                        endif;
+                        ?>
+                        " class="paginator__link">Следующая страница</a>
+                    </li>
+                <?php
+                endif; ?>
             </ul>
         </main>
         <div class="sidebar">
             <section class="catalog">
                 <h2 class="sidebar__headline">Каталог</h2>
                 <ul class="catalog-list">
-                    <?php
-                    for ($i = 0; $i < sizeof($categories); $i++) {
-                        echo '<li class="catalog-list__item"><a class="catalog-list__link" href="catalog.php?id=' . $categories[$i]['id'] . '">' . $categories[$i]['name'] . '</a></li>';
-                    }
-                    ?>
+                    <?php for ($i = 0; $i < sizeof($categories); $i++) : ?>
+                        <li class="catalog-list__item"><a class="catalog-list__link"
+                                                          href="catalog.php?id=<?php echo $categories[$i]['id'] ?>">
+                                <?php echo $categories[$i]['name'] ?></a>
+                        </li>
+                    <?php endfor; ?>
                 </ul>
             </section>
             <section class="news">
                 <h2 class="sidebar__headline news__headline">Новости</h2>
                 <ul class="news-list">
-                    <?php
-                    for ($i = 0; $i < $params['news_on_side']; $i++) {
-                        echo '<li class="news-item">
-                        <a class="news-item__link" href="news-detail.php?id=' . $news_aside[$i]['id'] . '">
-                            ' . $news_aside[$i]['header'] . '
-                        </a>
-                        <span class="news-item__date">' . $news_aside[$i]['date'] . '</span>
-                    </li>';
-                    }
-                    ?>
+                    <?php for ($i = 0; $i < $params['news_on_side']; $i++) : ?>
+                        <li class="news-item">
+                            <a class="news-item__link" href="news-detail.php?id=<?php echo $news[$i]['id'] ?>">
+                                <?php echo $news[$i]['header'] ?>
+                            </a>
+                            <span class="news-item__date"><?php echo $news[$i]['date'] ?></span>
+                        </li>
+                    <?php endfor; ?>
                 </ul>
                 <span class="archive"><a class="archive__link" href="news.php">Архив новостей</a></span>
             </section>

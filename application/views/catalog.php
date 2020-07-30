@@ -15,11 +15,11 @@ global $uri_query;
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="includes/css/stylesheet.css">
-    <link rel="shortcut icon" href="includes/img/favicon.png" type="image/png">
+    <link rel="stylesheet" href="assets/css/stylesheet.css">
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/png">
     <link rel="alternate" href="https://allfont.ru/allfont.css?fonts=arial-narrow">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="includes/js/script.js"></script>
+    <script src="assets/js/script.js"></script>
     <title>Company - Каталог</title>
 </head>
 
@@ -57,10 +57,10 @@ include 'includes/template_header.php'
                         echo '<li class="category good-piece">
                     <a class="category__link" href="product.php?id=' . array_keys($products)[$i] . '">
                         <img class="category__image good__image" src="';
-                        if (file_exists('includes/img/products/' . array_values($products)[$i]['image'])) {
-                            echo 'includes/img/products/' . array_values($products)[$i]['image'];
+                        if (file_exists('assets/img/products/' . array_values($products)[$i]['image'])) {
+                            echo 'assets/img/products/' . array_values($products)[$i]['image'];
                         } else {
-                            echo 'includes/img/' . array_values($products)[$i]['image'];
+                            echo 'assets/img/' . array_values($products)[$i]['image'];
                         }
                         echo '" alt="' . array_values($products)[$i]['name'] . '">
                         <span class="category__name-container good_name"><span class="category__name-inner">' . array_values($products)[$i]['name'] . '</span></span>

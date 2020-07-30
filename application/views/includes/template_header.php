@@ -9,14 +9,14 @@ global $active_tab;
             if ($active_tab != 'index') {
                 echo '<a href="index.php">
                 <div class="header-logo">
-                    <img class="header-logo__image" src="includes/img/logo.png" alt="Логотип" width="95" height="75">
+                    <img class="header-logo__image" src="assets/img/logo.png" alt="Логотип" width="95" height="75">
                     <span class="header-logo__caption">Company</span>
                 </div>
             </a>';
             }
             else {
                 echo '<div class="header-logo">
-                    <img class="header-logo__image" src="includes/img/logo.png" alt="Логотип" width="95" height="75">
+                    <img class="header-logo__image" src="assets/img/logo.png" alt="Логотип" width="95" height="75">
                     <span class="header-logo__caption">Company</span>
                 </div>';
             }

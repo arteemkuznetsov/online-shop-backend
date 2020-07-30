@@ -7,11 +7,11 @@ global $params;
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="includes/css/stylesheet.css">
-    <link rel="shortcut icon" href="includes/img/favicon.png" type="image/png">
+    <link rel="stylesheet" href="assets/css/stylesheet.css">
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/png">
     <link rel="alternate" href="https://allfont.ru/allfont.css?fonts=arial-narrow">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="includes/js/script.js"></script>
+    <script src="assets/js/script.js"></script>
     <title>Company - О компании</title>
 </head>
 

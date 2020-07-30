@@ -9,11 +9,11 @@ global $params;
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="includes/css/stylesheet.css">
-    <link rel="shortcut icon" href="includes/img/favicon.png" type="image/png">
+    <link rel="stylesheet" href="assets/css/stylesheet.css">
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/png">
     <link rel="alternate" href="https://allfont.ru/allfont.css?fonts=arial-narrow">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="includes/js/script.js"></script>
+    <script src="assets/js/script.js"></script>
     <title>Company - Интернет-магазин электронных сигарет</title>
 </head>
 
@@ -31,10 +31,10 @@ include 'includes/template_header.php'
                     echo '<li class="category">
                     <a class="category__link" href="catalog.php?id=' . $categories[$i]['id'] . '">
                         <img class="category__image" src="';
-                    if (file_exists('includes/img/' . $categories[$i]['image'])) {
-                        echo 'includes/img/' . $categories[$i]['image'];
+                    if (file_exists('assets/img/' . $categories[$i]['image'])) {
+                        echo 'assets/img/' . $categories[$i]['image'];
                     } else {
-                        echo 'includes/img/default.jpg';
+                        echo 'assets/img/default.jpg';
                     }
                     echo '" alt="' . $categories[$i]['name'] . '">
                         <span class="category__name-container"><span

@@ -1,10 +1,10 @@
 <?php
+
 require_once 'includes/lib.php';
 
-$news = [];
+$conn = connect_db();
 
-if (!$conn->connect_error) {
-    get_news_and_categories();
-}
+$news       = get_news($conn);
+$categories = get_categories($conn);
 
 require_once 'application/views/paydelivery.php';

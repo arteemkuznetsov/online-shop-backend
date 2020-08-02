@@ -1,131 +1,159 @@
-<!DOCTYPE html>
-<html lang="ru">
 <?php
-require_once 'includes/template_head.php'
-?>
-<body>
-<?php
+
 include 'includes/template_header.php'
 ?>
-<h1 class="contacts-page__main-headline">Контакты</h1>
-<table class="contacts-section">
-    <tbody>
-    <tr>
-        <td>
-            <h2>Адрес нашего офиса:</h2>
-            <p>
-                630065, г. Новосибирск, Декабристов, 92, корп.7
-                <br>Время приема заказов по телефону -
+    <h1 class="contacts-page__main-headline">Контакты</h1>
+    <table class="contacts-section">
+        <tbody>
+        <tr>
+            <td>
+                <h2>Адрес нашего офиса:</h2>
+                <p>
+                    630065, г. Новосибирск, Декабристов, 92, корп.7
+                    <br>Время приема заказов по телефону -
+                </p>
+                <p>
+                    с 9.30 до 18.00
+                    <br>Телефоны: +7 (383) 255‒15‒15 ; 349‒18‒49
+                </p>
+                <h2>Магазины партнеры:</h2>
+                <h3>Москва:</h3>
+                <p>
+                    Красный проспект, 50, стр. 1. универмаг "Московский":
+                    <br>1-й этаж, левое крыло пав. 71, тел.: +7 (383) 239‒39‒50;
+                </p>
+                <h3>Санкт-Петербург:</h3>
+                <p>
+                    www.president-spa.club, (913) 321-83-54
+                </p>
+            </td>
+            <td class="contacts-section__second-column">
+                <h2>ООО «Компания»</h2>
+                <p>
+                    Ген. директор:Иванов А.Ю.
+                </p>
+                <p>
+                    Юридический адрес: 630065, г. Новосибирск,
+                    <br>Декабристов, 92, корп.7
+                </p>
+                <p>
+                    ИНН 7733700983; КПП 7737655901;
+                </p>
+                <p>
+                    ОГРН 1097746493754 от 15 июня 2014г.
+                </p>
+                <p>
+                    Наименование банка: ОАО «УРАЛСИБ»
+                </p>
+                <p>
+                    г. Москва БИК 042591537;
+                    <br>Корр. счет 31542814300000000327; Расчетный счет
+                    40418710900020003009
+                </p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <section class="feedback-form">
+        <?php
+        if ( ! $success) : ?>
+            <h2 class="feedback-form__headline">Форма обратной связи</h2>
+            <p class="feedback-form__hint">
+                <span class="required-star">*</span> — обязательные для
+                заполнения
+                поля
             </p>
-            <p>
-                с 9.30 до 18.00
-                <br>Телефоны: +7 (383) 255‒15‒15 ; 349‒18‒49
-            </p>
-            <h2>Магазины партнеры:</h2>
-            <h3>Москва:</h3>
-            <p>
-                Красный проспект, 50, стр. 1. универмаг "Московский":
-                <br>1-й этаж, левое крыло пав. 71, тел.: +7 (383) 239‒39‒50;
-            </p>
-            <h3>Санкт-Петербург:</h3>
-            <p>
-                www.president-spa.club, (913) 321-83-54
-            </p>
-        </td>
-        <td class="contacts-section__second-column">
-            <h2>ООО «Компания»</h2>
-            <p>
-                Ген. директор:Иванов А.Ю.
-            </p>
-            <p>
-                Юридический адрес: 630065, г. Новосибирск,
-                <br>Декабристов, 92, корп.7
-            </p>
-            <p>
-                ИНН 7733700983; КПП 7737655901;
-            </p>
-            <p>
-                ОГРН 1097746493754 от 15 июня 2014г.
-            </p>
-            <p>
-                Наименование банка: ОАО «УРАЛСИБ»
-            </p>
-            <p>
-                г. Москва БИК 042591537;
-                <br>Корр. счет 31542814300000000327; Расчетный счет 40418710900020003009
-            </p>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<section class="feedback-form">
-    <?php if (!isset($_SESSION['form_sent'])) : // если форму отправляли, скрываем всю инфу о ней ?>
-    <h2 class="feedback-form__headline">Форма обратной связи</h2>
-        <p class="feedback-form__hint">
-            <span class="required-star">*</span> — обязательные для заполнения поля
-        </p>
-    <?php endif; ?>
-    <aside class="
+        <?php
+        endif; ?>
+        <aside class="
                 <?php
-    if ($answer) : // если форма была отправлена
-        if ($answer['success'] == 'true') :
-            echo 'success-box success-text';
-        else :
-            echo 'error-box error-text';
+        if ($answers) : // если форма была отправлена
+            if ($success) :
+                echo 'success-box success-text';
+            else :
+                echo 'error-box error-text';
+            endif;
         endif;
-    endif;
-    ?>">
-        <?php if ($answer) : ?>
-            <p class="info-message">
-                <?php echo $answer['message'] ?>
-            </p>
-        <?php endif; ?>
-    </aside>
-    <?php if (!isset($_SESSION['form_sent'])) : // если мы не отправляли форму в этой сессии, показываем ее ?>
-        <form method="POST" class="registration-form" name="contats-page__feedback-form"
-              action="contacts.php">
-            <div class="feedback-form__row">
-                <label class="inner-label" for="feedback-author">
-                    Имя <span class="required-star">*</span>
-                </label>
-                <input class="inner-input-box inner-input-box__name" type="text" name="feedback-author"
-                       id="feedback-author"
-                       pattern="[a-zа-яA-ZА-Я]+" maxlength="50">
-                <span class="error-text feedback-form__error-hint error-emptyness invisible">Поле «Имя» должно быть заполнено</span>
-            </div>
-            <div class="feedback-form__row">
-                <label class="inner-label" for="email">
-                    Электронная почта <span class="required-star">*</span>
-                </label>
-                <input class="inner-input-box inner-input-box__email" type="email" name="email" id="email"
-                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlength="70">
-                <span class="error-text feedback-form__error-hint error-emptyness invisible">Поле «Электронная почта» должно
-								быть заполнено</span>
-            </div>
-            <div class="feedback-form__row">
-                <label class="inner-label optional" for="phone">
-                    Телефон
-                </label>
-                <input class="inner-input-box" type="tel" name="phone" id="phone" maxlength="20">
-            </div>
-            <div class="feedback-form__row feedback-form__row_left-shift">
-                <label class="inner-label feedback-text-area__label" for="feedback-text">
-                    Пожалуйста, укажите какого рода информация вас интересует <span
-                            class="required-star">*</span>
-                </label>
-                <textarea class="inner-input-box feedback-text-area__input" name="feedback-text"
-                          id="feedback-text"></textarea>
-                <div>
-                    <input class="form-submit data-send" type="submit" value="Отправить">
-                    <input class="form-submit clear-inputs" type="button" value="Очистить поля">
+        ?>">
+            <?php
+            if ($answers):
+                foreach ($answers as $answer): ?>
+                    <p class="info-message">
+                        <?= $answer ?>
+                    </p>
+                <?php
+                endforeach;
+            endif; ?>
+        </aside>
+        <?php
+        if ( ! $success) : // если не активен флаг, что форма была успешно отправлена, показываем ее
+            ?>
+            <form method="POST" class="registration-form"
+                  name="contats-page__feedback-form"
+                  action="contacts.php">
+                <div class="feedback-form__row">
+                    <label class="inner-label" for="feedback-author">
+                        Имя <span class="required-star">*</span>
+                    </label>
+                    <input class="inner-input-box inner-input-box__name"
+                           type="text"
+                           name="feedback-author"
+                           id="feedback-author"
+                           pattern="[a-zа-яA-ZА-Я]+" maxlength="50"
+                        <?php
+                        if (isset($user_data['feedback-author'])):
+                            ?> value="<?= $user_data['feedback-author'] ?>" <?php
+                        endif; ?>>
+                    <span class="error-text feedback-form__error-hint error-emptyness invisible">Поле «Имя» должно быть заполнено</span>
                 </div>
-            </div>
-        </form>
-    <?php endif; ?>
-</section>
+                <div class="feedback-form__row">
+                    <label class="inner-label" for="email">
+                        Электронная почта <span class="required-star">*</span>
+                    </label>
+                    <input class="inner-input-box inner-input-box__email"
+                           type="email" name="email" id="email"
+                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                           maxlength="70"
+                        <?php
+                        if (isset($user_data['email'])):
+                            ?> value="<?= $user_data['email'] ?>" <?php
+                        endif; ?>>
+                    <span class="error-text feedback-form__error-hint error-emptyness invisible">Поле «Электронная почта» должно
+								быть заполнено</span>
+                </div>
+                <div class="feedback-form__row">
+                    <label class="inner-label optional" for="phone">
+                        Телефон
+                    </label>
+                    <input class="inner-input-box" type="tel" name="phone"
+                           id="phone" maxlength="20"
+                        <?php
+                        if (isset($user_data['phone'])):
+                            ?> value="<?= $user_data['phone'] ?>" <?php
+                        endif; ?>>
+                </div>
+                <div class="feedback-form__row feedback-form__row_left-shift">
+                    <label class="inner-label feedback-text-area__label"
+                           for="feedback-text">
+                        Пожалуйста, укажите какого рода информация вас
+                        интересует
+                        <span
+                                class="required-star">*</span>
+                    </label>
+                    <textarea class="inner-input-box feedback-text-area__input"
+                              name="feedback-text"
+                              id="feedback-text"></textarea>
+                    <div>
+                        <input class="form-submit data-send" type="submit"
+                               value="Отправить">
+                        <input class="form-submit clear-inputs" type="button"
+                               value="Очистить поля">
+                    </div>
+                </div>
+            </form>
+        <?php
+        endif; ?>
+    </section>
 <?php
-require_once 'includes/template_sidebar.php';
 require_once 'includes/template_footer.php';
 ?>
-</body>
-</html>

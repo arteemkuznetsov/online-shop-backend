@@ -2,7 +2,9 @@
 
 include 'includes/template_header.php'
 ?>
-    <h1 class="invisible">Архив новостей</h1>
+    <h1 class="invisible"><?php
+        echo ((isset($title) && ! empty($title))) ? $title
+            : $titles[$activeTab] ?></h1>
     <nav class="bread-crumbs-container">
         <ul class="bread-crumbs">
             <li class="bread-crumb"><a class="bread-crumb__link"
@@ -13,7 +15,7 @@ include 'includes/template_header.php'
     </nav>
     <ul class="news-list">
         <?php
-        foreach ($news_main as $id => $item) : ?>
+        foreach ($newsMain as $id => $item) : ?>
             <li class="news-item">
                 <a class="news-item__link" href="news-detail.php?id=<?= $id ?>">
                     <?= $item['header'] ?>
@@ -24,6 +26,6 @@ include 'includes/template_header.php'
         endforeach; ?>
     </ul>
 <?php
-render_paginator('');
+renderPaginator('');
 require_once 'includes/template_footer.php';
 ?>

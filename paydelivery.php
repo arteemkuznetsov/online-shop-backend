@@ -1,5 +1,5 @@
 <?php
 
-$active_tab = 'paydelivery';
+$activeTab = 'paydelivery';
 
 require_once 'application/models/paydelivery.php';

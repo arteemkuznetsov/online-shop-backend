@@ -2,7 +2,9 @@
 
 include 'includes/template_header.php'
 ?>
-    <h1 class="invisible">Каталог товаров</h1>
+    <h1 class="invisible"><?php
+        echo ((isset($title) && ! empty($title))) ? $title
+            : $titles[$activeTab] ?></h1>
     <nav class="bread-crumbs-container">
         <ul class="bread-crumbs">
             <li class="bread-crumb"><a class="bread-crumb__link"
@@ -14,8 +16,8 @@ include 'includes/template_header.php'
     <form action="catalog.php" class="search-filter"
           id="catalog-page__search-filter-1" method="get">
         <?php
-        if (isset($filter_params['id'])) : ?>
-            <input hidden name="id" value="<?= $filter_params['id'] ?>">
+        if (isset($filterParams['id'])) : ?>
+            <input hidden name="id" value="<?= $filterParams['id'] ?>">
         <?php
         endif; ?>
         <span class="search-filter__item">
@@ -24,8 +26,8 @@ include 'includes/template_header.php'
                name="price_from"
                id="cost-from" placeholder="от"
                <?php
-               if (isset($price_from)
-                   && $price_from != 0): ?>value="<?= $price_from ?>"
+               if (isset($priceFrom)
+                   && $priceFrom != 0): ?>value="<?= $priceFrom ?>"
             <?php
             endif; ?>>
     </span>
@@ -35,47 +37,47 @@ include 'includes/template_header.php'
                name="price_to" id="cost-to"
                placeholder="до"
             <?php
-            if (isset($price_to) && $price_to != 0): ?>
-                value="<?= $price_to ?>"
+            if (isset($priceTo) && $priceTo != 0): ?>
+                value="<?= $priceTo ?>"
             <?php
             endif; ?>>
     </span>
         <input class="form-submit search-filter__apply" type="submit"
                value="Применить">
     </form>
+<?php
+if (sizeof($products) > 0) : ?>
     <ul class="categories categories__reposition">
-        <?php
-        if (sizeof($products) > 0) :
-            foreach ($products as $id => $product) : ?>
-                <li class="category good-piece">
-                    <a class="category__link" href="product.php?id=<?= $id ?>">
-                        <img class="category__image good__image"
-                             src="<?php
-                             if (file_exists(
-                                 'assets/img/products/' . $product['image']
-                             )
-                             ) :
-                                 echo 'assets/img/products/'
-                                      . $product['image'];
-                             else :
-                                 echo 'assets/img/' . $product['image'];
-                             endif; ?>
+    <?php
+    foreach ($products as $id => $product) : ?>
+        <li class="category good-piece">
+            <a class="category__link" href="product.php?id=<?= $id ?>">
+                <img class="category__image good__image"
+                     src="<?php
+                     if (file_exists(
+                         'assets/img/products/' . $product['image']
+                     )
+                     ) :
+                         echo 'assets/img/products/'
+                              . $product['image'];
+                     else :
+                         echo 'assets/img/' . $product['image'];
+                     endif; ?>
                          " alt="<?= $product['name'] ?>">
-                        <span class="category__name-container good_name"><span
-                                    class="category__name-inner">
+                <span class="category__name-container good_name"><span
+                            class="category__name-inner">
                                         <?= $product['name'] ?></span></span>
-                    </a>
-                    <span class="good-price good_price"><?= $product['price'] ?> <small
-                                class="good-price__currency">руб.</small></span>
-                </li>
-            <?php
-            endforeach;
-        else :?>
-            <p>Найдено 0 товаров</p>
-        <?php
-        endif; ?>
+            </a>
+            <span class="good-price good_price"><?= $product['price'] ?> <small
+                        class="good-price__currency">руб.</small></span>
+        </li>
+    <?php
+    endforeach;
+else :?>
+    <p>Найдено 0 товаров</p>
     </ul>
 <?php
-render_paginator(http_build_query($filter_params));
+endif;
+renderPaginator(http_build_query($filterParams));
 require_once 'includes/template_footer.php';
 ?>

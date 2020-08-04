@@ -2,33 +2,37 @@
 
 require_once 'includes/lib.php';
 
-$news_main  = [];
-$news       = [];
+$newsMain = [];
+$news = [];
 $categories = [];
-$sql        = "SELECT * FROM news ORDER BY date DESC";
+$sql = "SELECT * FROM news ORDER BY date DESC";
 
-$conn = connect_db();
+$conn = connectDb();
 
-$number_of_pages = get_number_of_pages($conn, $sql, NEWS);
+$numberOfPages = getNumberOfPages($conn, $sql, NEWS);
 
-if (isset($_GET['page']) && (int)$_GET['page'] > 0
-    && (int)$_GET['page'] <= $number_of_pages
+if (isset($_GET['page']) &&
+    (int)$_GET['page'] > 0 &&
+    (int)$_GET['page'] <= $numberOfPages
 ) {
-    $current_page = (int)$_GET['page'];
-    $sql          = $sql . " LIMIT " . ($current_page - 1)
-                                       * $params['news_on_page'] . ", "
-                    . $params['news_on_page'];
-} else { // если page не установлен или page не в промежутке [1; последняя страница], он по умолчанию = 1
-    $current_page = 1;
-    $sql          = $sql . " LIMIT 0, " . $params['news_on_page'];
+    $currentPage = (int)$_GET['page'];
+    $sql = $sql . " LIMIT " . ($currentPage - 1)
+                              * $params['news_on_page'] . ", "
+           . $params['news_on_page'];
+} else {
+    // если page не установлен или page не в
+    // промежутке [1; последняя страница], он по умолчанию = 1
+    $currentPage = 1;
+    $sql = $sql . " LIMIT 0, " . $params['news_on_page'];
 }
 
 $result = $conn->query($sql);
 while ($row = $result->fetch_assoc()) {
-    $news_main[$row['id']] = $row;
+    $newsMain[$row['id']] = $row;
 }
 
-$news       = get_news($conn);
-$categories = get_categories($conn);
+$news = getNews($conn);
+$categories = getCategories($conn);
+$menu = extendMenu($titles, $categories);
 
 require_once 'application/views/news.php';

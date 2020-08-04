@@ -2,7 +2,9 @@
 
 include 'includes/template_header.php'
 ?>
-    <h1 class="invisible">Company - Электронные сигареты</h1>
+    <h1 class="invisible"><?php
+        echo ((isset($title) && ! empty($title))) ? $title
+            : $titles[$activeTab] ?></h1>
     <ul class="categories">
         <?php
         foreach ($categories as $id => $category) : ?>

@@ -2,9 +2,10 @@
 
 require_once 'includes/lib.php';
 
-$conn = connect_db();
+$conn = connectDb();
 
-$news       = get_news($conn);
-$categories = get_categories($conn);
+$news = getNews($conn);
+$categories = getCategories($conn);
+$menu = extendMenu($titles, $categories);
 
 require_once 'application/views/paydelivery.php';

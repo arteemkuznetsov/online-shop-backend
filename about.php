@@ -1,5 +1,5 @@
 <?php
 
-$active_tab = 'about';
+$activeTab = 'about';
 
 require_once 'application/models/about.php';

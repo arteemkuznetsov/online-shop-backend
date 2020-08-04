@@ -2,22 +2,23 @@
 
 require_once 'includes/lib.php';
 
-$news_info = [];
+$newsInfo = [];
 
-$conn = connect_db();
+$conn = connectDb();
 
 $result = $conn->query("SELECT * FROM news WHERE id = $id");
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $news_info = $row;
+        $newsInfo = $row;
     }
 } else {
     header('Location: 404.html');
 }
 
-$news       = get_news($conn);
-$categories = get_categories($conn);
+$news = getNews($conn);
+$categories = getCategories($conn);
+$menu = extendMenu($titles, $categories);
 
-$title = $news_info['header'];
+$title = $newsInfo['header'];
 
 require_once 'application/views/news-detail.php';

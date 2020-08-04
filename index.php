@@ -1,5 +1,4 @@
 <?php
 
-$active_tab = 'index';
-
+$activeTab = 'index';
 require_once 'application/models/index.php';

@@ -35,7 +35,7 @@
 </div>
 <?php
 
-$seo = 'include_areas/' . $active_tab . '_seo.php';
+$seo = 'include_areas/' . $activeTab . '_seo.php';
 if (file_exists($seo)) { ?>
     <article class="seo-article">
         <?php
@@ -62,10 +62,10 @@ if (file_exists($seo)) { ?>
         <nav class="footer-nav">
             <ul class="footer-nav__list">
                 <?php
-                foreach ($menu_items as $item): ?>
+                foreach ($titles as $resource => $title): ?>
                     <li class="footer-nav__list-item"><a
                                 class="footer-nav__link"
-                                href="<?= $item['resource_name'] ?>.php"><?= $item['item_name'] ?></a>
+                                href="<?= $resource ?>.php"><?= $title ?></a>
                     </li>
                 <?php
                 endforeach; ?>

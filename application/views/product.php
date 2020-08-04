@@ -11,22 +11,22 @@ include 'includes/template_header.php'
                                        href="catalog.php">Каталог</a>
             </li>
             <li class="bread-crumb"><a class="bread-crumb__link"
-                                       href="catalog.php?id=<?= $product_info['cat_id'] ?>">
-                    <?= $product_info['category'] ?></a>
+                                       href="catalog.php?id=<?= $productInfo['cat_id'] ?>">
+                    <?= $productInfo['category'] ?></a>
             </li>
-            <li class="bread-crumb bread-crumb_current"><?= $product_info['name'] ?></li>
+            <li class="bread-crumb bread-crumb_current"><?= $productInfo['name'] ?></li>
         </ul>
     </nav>
     <section class="product">
-        <h1 class="product__info-block-part product__headline"><?= $product_info['name'] ?></h1>
+        <h1 class="product__info-block-part product__headline"><?= $productInfo['name'] ?></h1>
         <img class="product__image"
-             src="assets/img/products/<?= $product_info['image'] ?>"
+             src="assets/img/products/<?= $productInfo['image'] ?>"
              alt="Упс! Здесь было фото сигареты, но теперь его нет :(">
-        <span class="good-price good_price product__info-block-part product__info-price"><?= $product_info['price'] ?> <small
+        <span class="good-price good_price product__info-block-part product__info-price"><?= $productInfo['price'] ?> <small
                     class="good-price__currency">руб.</small></span>
         <article class="product__description">
             <p>
-                <?= $product_info['description'] ?>
+                <?= $productInfo['description'] ?>
             </p>
         </article>
     </section>

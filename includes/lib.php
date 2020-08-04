@@ -2,7 +2,7 @@
 
 require_once 'config.php';
 
-function connect_db()
+function connectDb()
 {
     global $params;
 
@@ -21,14 +21,13 @@ function connect_db()
     }
 }
 
-function get_news($conn)
+function getNews($conn)
 {
     global $params;
     $news = [];
 
-    $result = $conn->query(
-        "SELECT * FROM news ORDER BY date DESC LIMIT 0, "
-        . $params['news_on_side']
+    $result = $conn->query("SELECT * FROM news ORDER BY date DESC LIMIT 0, " .
+                           $params['news_on_side']
     );
     while ($row = $result->fetch_assoc()) {
         $news[$row['id']] = $row;
@@ -37,11 +36,11 @@ function get_news($conn)
     return $news;
 }
 
-function get_categories($conn)
+function getCategories($conn)
 {
     $categories = [];
 
-    $sql    = "SELECT * FROM categories";
+    $sql = "SELECT * FROM categories";
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
         $categories[$row['id']] = $row;
@@ -50,55 +49,90 @@ function get_categories($conn)
     return $categories;
 }
 
-function render_paginator(
-    $uri_query
-) {
-    global $active_tab,
-           $number_of_pages,
-           $current_page; ?>
+// расширение меню
+function extendMenu($titles, $categories)
+{
+    // узнаем числовую позицию ключа 'catalog' среди ключей массива $titles
+    $catalogElemPosition = array_search("catalog", array_keys($titles));
+    // отрезаем от $titles часть до 'catalog', ВКЛЮЧАЯ его
+    $firstArrayPart = array_slice($titles, 0, $catalogElemPosition + 1);
+    // отрезаем все после, НЕ ВКЛЮЧАЯ 'catalog'
+    $secondArrayPart = array_slice($titles, $catalogElemPosition + 1);
+
+    // приклеиваем между ними массив категорий
+    return $firstArrayPart + ['categories' => $categories] + $secondArrayPart;
+}
+
+function renderMenuItem($item, $resource, $activeTab)
+{
+    ?>
+    <li class="header-nav-item">
+    <span<?php
+    if ($resource == 'catalog'): ?>
+        class="header-nav-item__container-for-link"
+    <?php
+    endif; ?>>
+            <a class="header-nav-item__link <?php
+            if ($resource == $activeTab) :
+                echo 'header-nav-item__link_current';
+            endif;
+            ?>" href="<?= $resource ?>.php"><?= $item ?></a>
+        </span>
+    <?php
+}
+
+function renderSubmenu($item)
+{
+    ?>
+    <ul class="sub-menu">
+        <?php
+        foreach ($item as $id => $category) : ?>
+            <li class="sub-menu__list-item">
+                <a class="sub-menu__link"
+                   href="catalog.php?id=<?= $id ?>"><?= $category['name'] ?></a>
+            </li>
+        <?php
+        endforeach; ?>
+    </ul>
+    </li>
+    <?php
+}
+
+function renderPaginator($uri_query)
+{
+    global $activeTab, $numberOfPages, $currentPage; ?>
     <ul class="paginator catalog-page__paginator">
         <?php
-        if ($number_of_pages > 0) :
-            for ($i = 0; $i < $number_of_pages; $i++) :
-                $practical_page = $i
-                                  + 1; // фактическая страница. мы же не с нуля считаем, когда страницы видим?
-                if ($practical_page != $current_page) : // нетекущая страница
+        if ($numberOfPages > 0) :
+            for ($i = 0; $i < $numberOfPages; $i++) :
+                $practicalPage = $i + 1; // фактическая страница
+                if ($practicalPage != $currentPage) : // нетекущая страница
                     ?>
                     <li class="paginator__elem">
-                        <a href="<?php
-                        echo $active_tab ?>.php?<?php
-                        echo $uri_query ?>&page=<?php
-                        echo $practical_page ?>"
-                           class="paginator__link">
-                            <?php
-                            echo $practical_page ?>
+                        <a href="<?= $activeTab ?>.php?<?= $uri_query ?>&page=<?=
+                        $practicalPage ?>"
+                           class="paginator__link"><?= $practicalPage ?>
                         </a>
                     </li>
                 <?php
                 else : // текущая страница
                     ?>
                     <li class="paginator__elem paginator__elem_current">
-                        <a href="<?php
-                        echo $active_tab ?>.php?<?php
-                        if ($active_tab == 'catalog')
-                            echo $uri_query ?>&page=<?php
-                        echo $current_page ?>"
-                           class="paginator__link">
-                            <?php
-                            echo $practical_page ?>
+                        <a href="<?= $activeTab ?>.php?<?php
+                        if ($activeTab == 'catalog')
+                            echo $uri_query ?>&page=<?= $currentPage ?>"
+                           class="paginator__link"><?= $practicalPage ?>
                         </a>
                     </li>
                 <?php
                 endif;
             endfor; ?>
             <li class="paginator__elem paginator__elem_next">
-                <a href="<?php
-                echo $active_tab ?>.php?<?php
-                echo $uri_query ?>&page=<?php
-                if ($current_page < $number_of_pages) :
-                    echo ++$current_page;
+                <a href="<?= $activeTab ?>.php?<?= $uri_query ?>&page=<?php
+                if ($currentPage < $numberOfPages) :
+                    echo ++$currentPage;
                 else :
-                    echo $current_page;
+                    echo $currentPage;
                 endif;
                 ?>" class="paginator__link">Следующая страница</a>
             </li>
@@ -108,16 +142,16 @@ function render_paginator(
     <?php
 }
 
-function get_number_of_pages($conn, $sql, $type)
+function getNumberOfPages($conn, $sql, $type)
 {
     global $params;
     // считаем количество страниц для составления пагинации
-    $all_pages_result = $conn->query($sql);
-    $num_rows         = $all_pages_result->num_rows;
+    $allPagesResult = $conn->query($sql);
+    $numRows = $allPagesResult->num_rows;
 
     return ceil(
-        $num_rows / $params[$type . '_on_page'] // news or products
+        $numRows / $params[$type . '_on_page'] // news or products
     ); // округляем вверх полученное число
 }
 
-?>
+

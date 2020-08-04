@@ -10,10 +10,10 @@ include 'includes/template_header.php'
     </ul>
 </nav>
 <article class="shipment-article">
-    <span class="news-item__date"><?= $news_info['date'] ?></span>
-    <h1><?= $news_info['header'] ?></h1>
-    <p><b><?= $news_info['announcement'] ?></b></p>
-    <p><?= $news_info['description'] ?></p>
+    <span class="news-item__date"><?= $newsInfo['date'] ?></span>
+    <h1><?= $newsInfo['header'] ?></h1>
+    <p><b><?= $newsInfo['announcement'] ?></b></p>
+    <p><?= $newsInfo['description'] ?></p>
 </article>
 <?php
 require_once 'includes/template_footer.php';

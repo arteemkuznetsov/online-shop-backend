@@ -56,7 +56,7 @@ include 'includes/template_header.php'
     </table>
     <section class="feedback-form">
         <?php
-        if ( ! $success) : ?>
+        if (! $success) : ?>
             <h2 class="feedback-form__headline">Форма обратной связи</h2>
             <p class="feedback-form__hint">
                 <span class="required-star">*</span> — обязательные для
@@ -86,7 +86,7 @@ include 'includes/template_header.php'
             endif; ?>
         </aside>
         <?php
-        if ( ! $success) : // если не активен флаг, что форма была успешно отправлена, показываем ее
+        if (! $success) : // если не активен флаг, что форма была успешно отправлена, показываем ее
             ?>
             <form method="POST" class="registration-form"
                   name="contats-page__feedback-form"
@@ -101,8 +101,8 @@ include 'includes/template_header.php'
                            id="feedback-author"
                            pattern="[a-zа-яA-ZА-Я]+" maxlength="50"
                         <?php
-                        if (isset($user_data['feedback-author'])):
-                            ?> value="<?= $user_data['feedback-author'] ?>" <?php
+                        if (isset($userData['feedback-author'])):
+                            ?> value="<?= $userData['feedback-author'] ?>" <?php
                         endif; ?>>
                     <span class="error-text feedback-form__error-hint error-emptyness invisible">Поле «Имя» должно быть заполнено</span>
                 </div>
@@ -115,8 +115,8 @@ include 'includes/template_header.php'
                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                            maxlength="70"
                         <?php
-                        if (isset($user_data['email'])):
-                            ?> value="<?= $user_data['email'] ?>" <?php
+                        if (isset($userData['email'])):
+                            ?> value="<?= $userData['email'] ?>" <?php
                         endif; ?>>
                     <span class="error-text feedback-form__error-hint error-emptyness invisible">Поле «Электронная почта» должно
 								быть заполнено</span>
@@ -128,8 +128,8 @@ include 'includes/template_header.php'
                     <input class="inner-input-box" type="tel" name="phone"
                            id="phone" maxlength="20"
                         <?php
-                        if (isset($user_data['phone'])):
-                            ?> value="<?= $user_data['phone'] ?>" <?php
+                        if (isset($userData['phone'])):
+                            ?> value="<?= $userData['phone'] ?>" <?php
                         endif; ?>>
                 </div>
                 <div class="feedback-form__row feedback-form__row_left-shift">

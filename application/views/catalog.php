@@ -48,34 +48,35 @@ include 'includes/template_header.php'
 <?php
 if (sizeof($products) > 0) : ?>
     <ul class="categories categories__reposition">
-    <?php
-    foreach ($products as $id => $product) : ?>
-        <li class="category good-piece">
-            <a class="category__link" href="product.php?id=<?= $id ?>">
-                <img class="category__image good__image"
-                     src="<?php
-                     if (file_exists('assets/img/products/' .
-                                     $product['image'])
-                     ) :
-                         echo 'assets/img/products/'
-                              . $product['image'];
-                     else :
-                         echo 'assets/img/' . $product['image'];
-                     endif; ?>" alt="<?= $product['name'] ?>">
-                <span class="category__name-container good_name">
+        <?php
+        foreach ($products as $id => $product) : ?>
+            <li class="category good-piece">
+                <a class="category__link" href="product.php?id=<?= $id ?>">
+                    <img class="category__image good__image"
+                         src="<?php
+                         if (file_exists('assets/img/products/' .
+                                         $product['image'])
+                         ) :
+                             echo 'assets/img/products/'
+                                  . $product['image'];
+                         else :
+                             echo 'assets/img/' . $product['image'];
+                         endif; ?>" alt="<?= $product['name'] ?>">
+                    <span class="category__name-container good_name">
                     <span class="category__name-inner"><?= $product['name'] ?></span>
                 </span>
-            </a>
-            <span class="good-price good_price"><?= $product['price'] ?> <small
-                        class="good-price__currency">руб.</small></span>
-        </li>
-    <?php
-    endforeach;
+                </a>
+                <span class="good-price good_price"><?= $product['price'] ?> <small
+                            class="good-price__currency">руб.</small></span>
+            </li>
+        <?php
+        endforeach; ?>
+    </ul>
+<?php
 else :?>
     <p>Найдено 0 товаров</p>
 <?php
 endif; ?>
-    </ul>
 <?php
 renderPaginator(http_build_query($filterParams));
 require_once 'includes/template_footer.php';

@@ -54,19 +54,17 @@ if (sizeof($products) > 0) : ?>
             <a class="category__link" href="product.php?id=<?= $id ?>">
                 <img class="category__image good__image"
                      src="<?php
-                     if (file_exists(
-                         'assets/img/products/' . $product['image']
-                     )
+                     if (file_exists('assets/img/products/' .
+                                     $product['image'])
                      ) :
                          echo 'assets/img/products/'
                               . $product['image'];
                      else :
                          echo 'assets/img/' . $product['image'];
-                     endif; ?>
-                         " alt="<?= $product['name'] ?>">
-                <span class="category__name-container good_name"><span
-                            class="category__name-inner">
-                                        <?= $product['name'] ?></span></span>
+                     endif; ?>" alt="<?= $product['name'] ?>">
+                <span class="category__name-container good_name">
+                    <span class="category__name-inner"><?= $product['name'] ?></span>
+                </span>
             </a>
             <span class="good-price good_price"><?= $product['price'] ?> <small
                         class="good-price__currency">руб.</small></span>
@@ -75,9 +73,10 @@ if (sizeof($products) > 0) : ?>
     endforeach;
 else :?>
     <p>Найдено 0 товаров</p>
+<?php
+endif; ?>
     </ul>
 <?php
-endif;
 renderPaginator(http_build_query($filterParams));
 require_once 'includes/template_footer.php';
 ?>

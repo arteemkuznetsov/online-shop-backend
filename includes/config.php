@@ -11,7 +11,7 @@ $params = [
     'password' => 'admin',
     'database' => 'company',
     'port' => '3306',
-
+    'categories_on_side' => 8,
     'products_on_page' => 12,
     'news_on_side' => 6,
     'news_on_page' => 8
@@ -26,4 +26,3 @@ $titles = [
     'paydelivery' => 'Доставка и оплата',
     'contacts' => 'Контакты'
 ];
-

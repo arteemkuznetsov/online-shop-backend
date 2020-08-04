@@ -6,13 +6,8 @@ $products = [];
 $conditions = [];
 $title = '';
 
-// запрос по умолчанию - вывод всех товаров без повторений. делаем запрос многих ко многим, поэтому DISTINCT
-$sql = "SELECT DISTINCT products.id, products.name, products.image, price
-	        FROM products_categories
-                INNER JOIN products
-		            ON product_id = products.id
-	            INNER JOIN categories
-		            ON category_id = categories.id";
+$sql = "SELECT * FROM products";
+$sqlPaginatorCount = "SELECT COUNT(*) FROM products";
 
 $conn = connectDb();
 
@@ -29,9 +24,19 @@ if (isset($filterParams['page'])) {
 }
 
 // формируем массив условий запроса
-if (isset($_GET['id'])) {
+if (isset($_GET['id'])) { // если задано id категории, запрос видоизменяется
+    $sql = "SELECT DISTINCT products.id, products.name, products.image, price
+	        FROM products_categories
+                INNER JOIN products
+		            ON product_id = products.id";
+    $sqlPaginatorCount = "SELECT COUNT(*) FROM (
+                            SELECT DISTINCT products.id, products.name, 
+                                            products.image, price 
+                                FROM products_categories 
+                                    INNER JOIN products 
+                                    ON product_id = products.id";
     $id = (int)$_GET['id'];
-    $conditions[] = "categories.id = $id";
+    $conditions[] = "category_id = $id";
     $title = $categories[$id]['name'];
 }
 if (isset($_GET['price_from'])) {
@@ -51,9 +56,14 @@ if (
     ! empty($conditions)
 ) { // $sql . " WHERE (условие 1) AND (условие 2) AND..."
     $sql = $sql . " WHERE " . implode(" AND ", $conditions);
+    $sqlPaginatorCount = $sqlPaginatorCount . " WHERE " .
+                         implode(" AND ", $conditions);
+}
+if (isset($_GET['id'])) {
+    $sqlPaginatorCount = $sqlPaginatorCount . ") FINAL";
 }
 $sql = $sql . " ORDER BY id DESC "; // вывод товаров от новых к старым
-$numberOfPages = getNumberOfPages($conn, $sql, PRODUCTS);
+$numberOfPages = getNumberOfPages($conn, $sqlPaginatorCount, PRODUCTS);
 
 
 if (isset($_GET['page']) && (int)$_GET['page'] <= $numberOfPages) {
@@ -66,8 +76,8 @@ if (isset($_GET['page']) && (int)$_GET['page'] <= $numberOfPages) {
 }
 
 // получаем товары на одну страницу
-$onePageResult = $conn->query($sql);
-while ($row = $onePageResult->fetch_assoc()) {
+$result = $conn->query($sql);
+while ($row = $result->fetch_assoc()) {
     $products[$row['id']] = $row;
 }
 

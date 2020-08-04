@@ -65,8 +65,7 @@ include 'includes/template_header.php'
             </p>
         <?php
         endif; ?>
-        <aside class="
-                <?php
+        <aside class="<?php
         if ($answers) : // если форма была отправлена
             if ($success) :
                 echo 'success-box success-text';
@@ -74,13 +73,10 @@ include 'includes/template_header.php'
                 echo 'error-box error-text';
             endif;
         endif;
-        ?>">
-            <?php
+        ?>"><?php
             if ($answers):
                 foreach ($answers as $answer): ?>
-                    <p class="info-message">
-                        <?= $answer ?>
-                    </p>
+                    <p class="info-message"><?= $answer ?></p>
                 <?php
                 endforeach;
             endif; ?>
@@ -115,8 +111,8 @@ include 'includes/template_header.php'
                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                            maxlength="70"
                         <?php
-                        if (isset($userData['email'])):
-                            ?> value="<?= $userData['email'] ?>" <?php
+                        if (isset($userData['email'])): ?>
+                            value="<?= $userData['email'] ?>" <?php
                         endif; ?>>
                     <span class="error-text feedback-form__error-hint error-emptyness invisible">Поле «Электронная почта» должно
 								быть заполнено</span>
@@ -128,8 +124,8 @@ include 'includes/template_header.php'
                     <input class="inner-input-box" type="tel" name="phone"
                            id="phone" maxlength="20"
                         <?php
-                        if (isset($userData['phone'])):
-                            ?> value="<?= $userData['phone'] ?>" <?php
+                        if (isset($userData['phone'])): ?>
+                            value="<?= $userData['phone'] ?>" <?php
                         endif; ?>>
                 </div>
                 <div class="feedback-form__row feedback-form__row_left-shift">

@@ -1,11 +1,18 @@
 <?php
 
-// проверяется не наличие, а логичность
+// проверяется не наличие, а логичность. параметры необязательны
 if (
-    (isset($_GET['page']) && (int)$_GET['page'] <= 0) || // page <= 0
-    (isset($_GET['id']) && (int)$_GET['id'] <= 0) || // id <= 0
-    (isset($_GET['price_from']) && isset($_GET['price_to']) &&
-     (int)$_GET['price_from'] > (int)$_GET['price_to']) // price_from > price_to
+    (isset($_GET['page']) && (int)$_GET['page'] <= 0) ||
+    (isset($_GET['id']) && (int)$_GET['id'] <= 0) ||
+    (isset($_GET['id']) && empty($_GET['id'])) ||
+    (
+        isset($_GET['price_from']) && isset($_GET['price_to']) &&
+        (float)$_GET['price_from'] > (float)$_GET['price_to']
+    ) ||
+    (isset($_GET['price_from']) && (float)$_GET['price_from'] < 0) ||
+    (isset($_GET['price_to']) && (float)$_GET['price_to'] < 0) ||
+    (isset($_GET['price_from']) && empty($_GET['price_from'])) ||
+    (isset($_GET['price_to']) && empty($_GET['price_to']))
 ) {
     header('Location: 404.html');
 } else {

@@ -6,10 +6,11 @@ $newsMain = [];
 $news = [];
 $categories = [];
 $sql = "SELECT * FROM news ORDER BY date DESC";
+$sqlPaginatorCount = "SELECT COUNT(*) FROM news";
 
 $conn = connectDb();
 
-$numberOfPages = getNumberOfPages($conn, $sql, NEWS);
+$numberOfPages = getNumberOfPages($conn, $sqlPaginatorCount, NEWS);
 
 if (isset($_GET['page']) &&
     (int)$_GET['page'] > 0 &&

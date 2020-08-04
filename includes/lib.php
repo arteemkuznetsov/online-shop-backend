@@ -38,9 +38,10 @@ function getNews($conn)
 
 function getCategories($conn)
 {
+    global $params;
     $categories = [];
 
-    $sql = "SELECT * FROM categories";
+    $sql = "SELECT * FROM categories LIMIT 0, " . $params['categories_on_side'];
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
         $categories[$row['id']] = $row;
@@ -146,12 +147,13 @@ function getNumberOfPages($conn, $sql, $type)
 {
     global $params;
     // считаем количество страниц для составления пагинации
-    $allPagesResult = $conn->query($sql);
-    $numRows = $allPagesResult->num_rows;
+    $result = $conn->query($sql);
+    $numRows = 1;
+    while ($row = $result->fetch_assoc()) {
+        $numRows = $row['COUNT(*)'];
+    }
 
     return ceil(
         $numRows / $params[$type . '_on_page'] // news or products
     ); // округляем вверх полученное число
 }
-
-

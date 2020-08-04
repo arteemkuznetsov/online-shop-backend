@@ -2,9 +2,7 @@
 
 include 'includes/template_header.php'
 ?>
-    <h1 class="invisible"><?php
-        echo ((isset($title) && ! empty($title))) ? $title
-            : $titles[$activeTab] ?></h1>
+    <h1 class="invisible"><?php echo ((isset($title) && ! empty($title))) ? $title : $titles[$activeTab] ?></h1>
     <nav class="bread-crumbs-container">
         <ul class="bread-crumbs">
             <li class="bread-crumb"><a class="bread-crumb__link"
@@ -26,10 +24,10 @@ include 'includes/template_header.php'
                name="price_from"
                id="cost-from" placeholder="от"
                <?php
-               if (isset($priceFrom)
-                   && $priceFrom != 0): ?>value="<?= $priceFrom ?>"
-            <?php
-            endif; ?>>
+               if (isset($priceFrom) && $priceFrom != 0): ?>
+                   value="<?= $priceFrom ?>"
+               <?php
+               endif; ?>>
     </span>
         <span class="search-filter__item">
         <label class="search-filter__label" for="cost-to">—</label>
@@ -48,29 +46,24 @@ include 'includes/template_header.php'
 <?php
 if (sizeof($products) > 0) : ?>
     <ul class="categories categories__reposition">
-        <?php
-        foreach ($products as $id => $product) : ?>
-            <li class="category good-piece">
-                <a class="category__link" href="product.php?id=<?= $id ?>">
-                    <img class="category__image good__image"
-                         src="<?php
-                         if (file_exists('assets/img/products/' .
-                                         $product['image'])
-                         ) :
-                             echo 'assets/img/products/'
-                                  . $product['image'];
-                         else :
-                             echo 'assets/img/' . $product['image'];
-                         endif; ?>" alt="<?= $product['name'] ?>">
+    <?php
+    foreach ($products as $id => $product) : ?>
+        <li class="category good-piece">
+            <a class="category__link" href="product.php?id=<?= $id ?>">
+                <?php
+                if (file_exists('assets/img/products/' . $product['image'])): ?>
+                    <img class="category__image good__image" src="assets/img/products/<?= $product['image'] ?>" alt="<?= $product['name'] ?>">
+                <?php else: ?>
+                    <img class="category__image good__image" src="assets/img/default.jpg" alt="<?= $product['name'] ?>">
+                <?php endif; ?>
                     <span class="category__name-container good_name">
-                    <span class="category__name-inner"><?= $product['name'] ?></span>
-                </span>
-                </a>
-                <span class="good-price good_price"><?= $product['price'] ?> <small
-                            class="good-price__currency">руб.</small></span>
-            </li>
-        <?php
-        endforeach; ?>
+                        <span class="category__name-inner"><?= $product['name'] ?></span>
+                    </span>
+            </a>
+            <span class="good-price good_price"><?= $product['price'] ?> <small class="good-price__currency">руб.</small></span>
+        </li>
+    <?php
+    endforeach; ?>
     </ul>
 <?php
 else :?>

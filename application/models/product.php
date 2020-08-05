@@ -58,7 +58,7 @@ if (isset($parameters['cat_id'])) { // если был передан парам
 
 $news = getNews($conn);
 $categories = getCategories($conn);
-$menu = extendMenu($titles, $categories);
+$menu = extendMenu($titles, $categories, 'catalog');
 
 $title = $productInfo['name'];
 

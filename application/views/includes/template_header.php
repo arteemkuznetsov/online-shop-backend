@@ -55,19 +55,44 @@
             <span class="menu-toggler">Меню</span>
             <ul class="menu-togglable">
                 <?php
-                foreach ($menu as $resource => $item) :
-                    if (! is_array($item)) :
-                        renderMenuItem($item, $resource, $activeTab);
-                    else:
-                        renderSubmenu($item);
-                    endif;
-                    // закрываем <li> когда не вызываем renderSubMenu(), также
-                    // когда внутри menuItem следующей итерацией выводим submenu
-                    if (! is_array($item) && ! is_array(next($menu))) : ?>
+                $i = 0;
+                while ($i < sizeof($menu)) :
+                    if ($menu[$i]['level'] == 1) : ?>
+                        <li class="header-nav-item">
+                        <span <?php
+                        if (isset($menu[$i + 1]) && $menu[$i + 1]['level'] == 2 ) : ?>
+                            class="header-nav-item__container-for-link"
+                        <?php
+                        endif; ?>
+                        ><a class="header-nav-item__link <?php
+                            if ($menu[$i]['resource'] == $activeTab) :
+                                echo 'header-nav-item__link_current';
+                            endif;
+                            ?>"
+                            href="<?= $menu[$i]['resource'] ?>.php"><?= $menu[$i]['name'] ?></a>
+                        </span>
+                            <?php
+                            if (isset($menu[$i + 1]) && $menu[$i + 1]['level'] == 2 ) : ?>
+                                <ul class="sub-menu">
+                                    <?php
+                                    $i++;
+                                    while ($menu[$i]['level'] == 2) : ?>
+                                        <li class="sub-menu__list-item">
+                                            <a class="sub-menu__link"
+                                               href="<?= $menu[$i]['resource'] ?>"><?= $menu[$i]['name'] ?></a>
+                                        </li>
+                                        <?php
+                                        $i++;
+                                    endwhile;
+                                    ?>
+                                </ul>
+                            <?php
+                            endif; ?>
                         </li>
                     <?php
                     endif;
-                endforeach; ?>
+                    $i++;
+                endwhile; ?>
             </ul>
         </div>
     </nav>

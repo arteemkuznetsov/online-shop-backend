@@ -79,6 +79,6 @@ if ($_POST) {
 // наша модель должна знать, какие существуют категории, чтобы вьюшка их вывела
 $news = getNews($conn);
 $categories = getCategories($conn);
-$menu = extendMenu($titles, $categories);
+$menu = extendMenu($titles, $categories, 'catalog');
 
 require_once 'application/views/contacts.php';

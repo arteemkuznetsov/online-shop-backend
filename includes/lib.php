@@ -4,7 +4,6 @@ require_once 'config.php';
 
 function connectDb()
 {
-
     $conn = new mysqli(
         PARAMS['servername'],
         PARAMS['username'],
@@ -48,52 +47,39 @@ function getCategories($conn)
 }
 
 // расширение меню
-function extendMenu($titles, $categories)
+function extendMenu($titles, $array, $afterItem)
 {
-    // узнаем числовую позицию ключа 'catalog' среди ключей массива $titles
-    $catalogElemPosition = array_search("catalog", array_keys($titles));
-    // отрезаем от $titles часть до 'catalog', ВКЛЮЧАЯ его
-    $firstArrayPart = array_slice($titles, 0, $catalogElemPosition + 1);
-    // отрезаем все после, НЕ ВКЛЮЧАЯ 'catalog'
-    $secondArrayPart = array_slice($titles, $catalogElemPosition + 1);
+    $menu = [];
+    foreach ($titles as $resource => $name) {
+        $menu[] = [
+            'name' => $name,
+            'resource' => $resource,
+            'level' => 1
+        ];
+    }
 
-    // приклеиваем между ними массив категорий
-    return $firstArrayPart + ['categories' => $categories] + $secondArrayPart;
-}
+    $submenu = [];
+    $position = 0;
 
-function renderMenuItem($item, $resource, $activeTab)
-{
-    ?>
-    <li class="header-nav-item">
-    <span<?php
-    if ($resource == 'catalog'): ?>
-        class="header-nav-item__container-for-link"
-    <?php
-    endif; ?>>
-            <a class="header-nav-item__link <?php
-            if ($resource == $activeTab) :
-                echo 'header-nav-item__link_current';
-            endif;
-            ?>" href="<?= $resource ?>.php"><?= $item ?></a>
-        </span>
-    <?php
-}
+    foreach ($menu as $key => $menuItem) { // ищем в каждом подмассиве меню
+        if ($menuItem['resource'] == $afterItem) {
+            $position = $key;
+            break;
+        }
+    }
+    $first = array_slice($menu, 0, $position + 1);
+    $second = array_slice($menu, $position);
 
-function renderSubmenu($item)
-{
-    ?>
-    <ul class="sub-menu">
-        <?php
-        foreach ($item as $id => $category) : ?>
-            <li class="sub-menu__list-item">
-                <a class="sub-menu__link"
-                   href="catalog.php?id=<?= $id ?>"><?= $category['name'] ?></a>
-            </li>
-        <?php
-        endforeach; ?>
-    </ul>
-    </li>
-    <?php
+    foreach ($array as $item) {
+        $submenu[] = [
+            'name' => $item['name'],
+            'resource' => $afterItem . '.php?id=' . $item['id'],
+            'level' => 2
+        ];
+    }
+    $menu = array_merge($first, $submenu, $second);
+
+    return $menu;
 }
 
 function renderPaginator($uri_query)

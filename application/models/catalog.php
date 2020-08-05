@@ -16,7 +16,7 @@ $conn = connectDb();
 
 $news = getNews($conn);
 $categories = getCategories($conn);
-$menu = extendMenu($titles, $categories);
+$menu = extendMenu($titles, $categories, 'catalog');
 
 /*---------------------------------------*/
 

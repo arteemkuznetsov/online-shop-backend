@@ -2,7 +2,7 @@
 
 require_once 'includes/lib.php';
 
-$id = (int)($_GET['id']);
+$id = $parameters['id'];
 $sql = "SELECT products.name, products.image, price, description, categories.id AS 'cat_id', categories.name AS 'category'
 	            FROM products
                 INNER JOIN categories
@@ -14,17 +14,16 @@ $conn = connectDb();
 
 $productResult = $conn->query($sql); // запрос информации о продукте
 
-if ($productResult->num_rows > 0) { // если товар найден
-    while ($row =
-        $productResult->fetch_assoc()) { // записываем о нем информацию вместе с категорией по умолчанию
+if ($productResult->num_rows > 0) { // если товар найден, записываем о нем информацию вместе с категорией по умолчанию
+    while ($row = $productResult->fetch_assoc()) {
         $productInfo = $row;
     }
 } else {
     header('Location: 404.html'); // REDIRECT 404.html
 }
 
-if (isset($_GET['cat_id'])) { // если был передан параметр cat_id
-    $categoryId = (int)($_GET['cat_id']);
+if (isset($parameters['cat_id'])) { // если был передан параметр cat_id
+    $categoryId = $parameters['cat_id'];
 
     $categoryExistsResult = $conn->query(
         "SELECT * FROM categories WHERE id = $categoryId"

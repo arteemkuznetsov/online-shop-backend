@@ -5,17 +5,25 @@ include 'includes/template_header.php'
     <h1 class="invisible"><?php echo ((isset($title) && ! empty($title))) ? $title : $titles[$activeTab] ?></h1>
     <nav class="bread-crumbs-container">
         <ul class="bread-crumbs">
-            <li class="bread-crumb"><a class="bread-crumb__link"
-                                       href="index.php">Главная</a>
+            <li class="bread-crumb">
+                <a class="bread-crumb__link" href="index.php">Главная</a>
             </li>
-            <li class="bread-crumb bread-crumb_current">Каталог</li>
+            <? if (!isset($parameters['id'])): ?>
+                <li class="bread-crumb bread-crumb_current">Каталог</li>
+            <?
+            else: ?>
+                <li class="bread-crumb">
+                    <a class="bread-crumb__link" href="catalog.php">Каталог</a>
+                </li>
+                <li class="bread-crumb bread-crumb_current"><?= $title ?></li>
+            <?php endif;?>
         </ul>
     </nav>
     <form action="catalog.php" class="search-filter"
           id="catalog-page__search-filter-1" method="get">
         <?php
-        if (isset($filterParams['id'])) : ?>
-            <input hidden name="id" value="<?= $filterParams['id'] ?>">
+        if (isset($parameters['id'])) : ?>
+            <input hidden name="id" value="<?= $parameters['id'] ?>">
         <?php
         endif; ?>
         <span class="search-filter__item">
@@ -71,6 +79,6 @@ else :?>
 <?php
 endif; ?>
 <?php
-renderPaginator(http_build_query($filterParams));
+renderPaginator(http_build_query($parameters));
 require_once 'includes/template_footer.php';
 ?>

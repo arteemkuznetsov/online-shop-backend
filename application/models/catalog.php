@@ -6,8 +6,11 @@ $products = [];
 $conditions = [];
 $title = '';
 
-$sql = "SELECT * FROM products";
-$sqlPaginatorCount = "SELECT COUNT(*) FROM products";
+// prefixes
+$sqlPrefix = "SELECT * FROM products";
+$sqlPaginatorPrefix = "SELECT COUNT(*) FROM (";
+// middle
+$sqlCommonPart = " INNER JOIN products_categories ON product_id = products.id";
 
 $conn = connectDb();
 
@@ -17,62 +20,49 @@ $menu = extendMenu($titles, $categories);
 
 /*---------------------------------------*/
 
-// запоминаем все параметры, кроме page - оно задается каждый раз при перелистывании
-$filterParams = $_GET;
-if (isset($filterParams['page'])) {
-    unset($filterParams['page']);
-}
-
 // формируем массив условий запроса
-if (isset($_GET['id'])) { // если задано id категории, запрос видоизменяется
-    $sql = "SELECT DISTINCT products.id, products.name, products.image, price
-	        FROM products_categories
-                INNER JOIN products
-		            ON product_id = products.id";
-    $sqlPaginatorCount = "SELECT COUNT(*) FROM (
-                            SELECT DISTINCT products.id, products.name, 
-                                            products.image, price 
-                                FROM products_categories 
-                                    INNER JOIN products 
-                                    ON product_id = products.id";
-    $id = (int)$_GET['id'];
+if (isset($parameters['id'])) { // если задано id категории
+    $sql = $sqlPrefix . $sqlCommonPart;
+    $sqlPaginator = $sqlPaginatorPrefix . $sql;
+
+    $id = $parameters['id'];
     $conditions[] = "category_id = $id";
     $title = $categories[$id]['name'];
+} else {
+    $sql = $sqlPrefix;
+    $sqlPaginator = $sqlPaginatorPrefix . $sql;
 }
-if (isset($_GET['price_from'])) {
-    $priceFrom = (float)$_GET['price_from'];
+if (isset($parameters['price_from'])) {
+    $priceFrom = $parameters['price_from'];
     $conditions[] = "price >= $priceFrom";
 }
-if (isset($_GET['price_to'])) {
-    $priceTo = (float)$_GET['price_to'];
+if (isset($parameters['price_to'])) {
+    $priceTo = $parameters['price_to'];
     $conditions[] = "price <= $priceTo";
 }
 
 // если был передан хотя бы один параметр кроме page
-if (
-    (isset($_GET['id']) ||
-     isset($_GET['price_from']) ||
-     isset($_GET['price_to'])) &&
-    ! empty($conditions)
-) { // $sql . " WHERE (условие 1) AND (условие 2) AND..."
+if (! empty($parameters) && ! empty($conditions)) {
     $sql = $sql . " WHERE " . implode(" AND ", $conditions);
-    $sqlPaginatorCount = $sqlPaginatorCount . " WHERE " .
-                         implode(" AND ", $conditions);
-}
-if (isset($_GET['id'])) {
-    $sqlPaginatorCount = $sqlPaginatorCount . ") FINAL";
+    $sqlPaginator = $sqlPaginator . " WHERE " . implode(" AND ", $conditions);
 }
 $sql = $sql . " ORDER BY id DESC "; // вывод товаров от новых к старым
-$numberOfPages = getNumberOfPages($conn, $sqlPaginatorCount, PRODUCTS);
+$sqlPaginator = $sqlPaginator . ") FINAL";
 
+$numberOfPages = getNumberOfPages($conn, $sqlPaginator, PRODUCTS);
 
-if (isset($_GET['page']) && (int)$_GET['page'] <= $numberOfPages) {
-    $currentPage = (int)$_GET['page'];
-    $sql = $sql . " LIMIT " . ($currentPage - 1) * $params['products_on_page'] .
-           ", " . $params['products_on_page'];
+if (isset($parameters['page']) && $parameters['page'] <= $numberOfPages) {
+    $currentPage = $parameters['page'];
+    $sql = $sql . " LIMIT " . ($currentPage - 1) * PARAMS['products_on_page'] .
+           ", " . PARAMS['products_on_page'];
 } else { // если page не в промежутке [1; последняя страница], он по умолчанию 1
     $currentPage = 1;
-    $sql = $sql . " LIMIT 0, " . $params['products_on_page'];
+    $sql = $sql . " LIMIT 0, " . PARAMS['products_on_page'];
+}
+
+// выбрасываем page, так как $currentPage мы уже запомнили
+if (isset($parameters['page'])) {
+    unset($parameters['page']);
 }
 
 // получаем товары на одну страницу

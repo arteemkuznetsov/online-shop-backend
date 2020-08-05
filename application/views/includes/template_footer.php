@@ -17,18 +17,13 @@
         <h2 class="sidebar__headline news__headline">Новости</h2>
         <ul class="news-list">
             <?php
-            for ($i = 0; $i < $params['news_on_side']; $i++) : ?>
+            foreach ($news as $id => $newsItem) : ?>
                 <li class="news-item">
-                    <a class="news-item__link"
-                       href="news-detail.php?id=<?= array_keys($news)[$i] ?>">
-                        <?= array_values($news)[$i]['header'] ?>
-                    </a>
-                    <span class="news-item__date"><?= array_values(
-                                                          $news
-                                                      )[$i]['date'] ?></span>
+                    <a class="news-item__link" href="news-detail.php?id=<?= $id ?>"><?= $newsItem['header'] ?></a>
+                    <span class="news-item__date"><?=$newsItem['date'] ?></span>
                 </li>
             <?php
-            endfor; ?>
+            endforeach; ?>
         </ul>
         <span class="archive"><a class="archive__link" href="news.php">Архив новостей</a></span>
     </section>

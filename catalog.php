@@ -1,18 +1,30 @@
 <?php
 
-// проверяется не наличие, а логичность. параметры необязательны
+$parameters = [];
+
+// приведение параметров
+foreach ($_GET as $parameter => $value) {
+    if (! empty($parameter)) {
+        switch ($parameter) {
+            case ('id' || 'page'):
+                $parameters[$parameter] = (int)$value;
+                break;
+            case ('price_from' || 'price_to'):
+                $parameters[$parameter] = (float)$value;
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 if (
-    (isset($_GET['page']) && (int)$_GET['page'] <= 0) ||
-    (isset($_GET['id']) && (int)$_GET['id'] <= 0) ||
-    (isset($_GET['id']) && empty($_GET['id'])) ||
-    (
-        isset($_GET['price_from']) && isset($_GET['price_to']) &&
-        (float)$_GET['price_from'] > (float)$_GET['price_to']
-    ) ||
-    (isset($_GET['price_from']) && (float)$_GET['price_from'] < 0) ||
-    (isset($_GET['price_to']) && (float)$_GET['price_to'] < 0) ||
-    (isset($_GET['price_from']) && empty($_GET['price_from'])) ||
-    (isset($_GET['price_to']) && empty($_GET['price_to']))
+    (isset($parameters['page']) && $parameters['page'] <= 0) ||
+    (isset($parameters['id']) && $parameters['id'] <= 0) ||
+    (isset($parameters['price_from']) && isset($parameters['price_to']) &&
+     $parameters['price_from'] > $parameters['price_to']) ||
+    (isset($parameters['price_from']) && $parameters['price_from'] < 0) ||
+    (isset($parameters['price_to']) && $parameters['price_to'] < 0)
 ) {
     header('Location: 404.html');
 } else {

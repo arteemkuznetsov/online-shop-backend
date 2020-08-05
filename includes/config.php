@@ -4,7 +4,7 @@
 const NEWS = 'news';
 const PRODUCTS = 'products';
 
-$params = [
+const PARAMS = [
     // database params
     'servername' => 'localhost',
     'username' => 'root',

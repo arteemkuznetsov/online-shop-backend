@@ -1,6 +1,12 @@
 <?php
 
-if (isset($_GET['page']) && (int)$_GET['page'] <= 0) {
+$parameters = [];
+
+if (isset($_GET['page']) && ! empty($_GET['page'])) {
+    $parameters['page'] = (int)$_GET['page'];
+}
+
+if (isset($parameters['page']) && $parameters['page'] <= 0) {
     header('Location: 404.html');
 } else {
     $activeTab = 'news';

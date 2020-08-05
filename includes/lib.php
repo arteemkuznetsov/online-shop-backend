@@ -4,14 +4,13 @@ require_once 'config.php';
 
 function connectDb()
 {
-    global $params;
 
     $conn = new mysqli(
-        $params['servername'],
-        $params['username'],
-        $params['password'],
-        $params['database'],
-        $params['port']
+        PARAMS['servername'],
+        PARAMS['username'],
+        PARAMS['password'],
+        PARAMS['database'],
+        PARAMS['port']
     );
 
     if ($conn->connect_error) {
@@ -23,11 +22,10 @@ function connectDb()
 
 function getNews($conn)
 {
-    global $params;
     $news = [];
 
     $result = $conn->query("SELECT * FROM news ORDER BY date DESC LIMIT 0, " .
-                           $params['news_on_side']
+                           PARAMS['news_on_side']
     );
     while ($row = $result->fetch_assoc()) {
         $news[$row['id']] = $row;
@@ -38,10 +36,9 @@ function getNews($conn)
 
 function getCategories($conn)
 {
-    global $params;
     $categories = [];
 
-    $sql = "SELECT * FROM categories LIMIT 0, " . $params['categories_on_side'];
+    $sql = "SELECT * FROM categories LIMIT 0, " . PARAMS['categories_on_side'];
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
         $categories[$row['id']] = $row;
@@ -145,7 +142,6 @@ function renderPaginator($uri_query)
 
 function getNumberOfPages($conn, $sql, $type)
 {
-    global $params;
     // считаем количество страниц для составления пагинации
     $result = $conn->query($sql);
     $numRows = 1;
@@ -154,6 +150,6 @@ function getNumberOfPages($conn, $sql, $type)
     }
 
     return ceil(
-        $numRows / $params[$type . '_on_page'] // news or products
+        $numRows / PARAMS[$type . '_on_page'] // news or products
     ); // округляем вверх полученное число
 }

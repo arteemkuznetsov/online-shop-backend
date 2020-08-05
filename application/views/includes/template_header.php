@@ -63,23 +63,21 @@
                         if (isset($menu[$i + 1]) && $menu[$i + 1]['level'] == 2 ) : ?>
                             class="header-nav-item__container-for-link"
                         <?php
-                        endif; ?>
-                        ><a class="header-nav-item__link <?php
+                        endif; ?>>
+                            <a class="header-nav-item__link <?php
                             if ($menu[$i]['resource'] == $activeTab) :
                                 echo 'header-nav-item__link_current';
                             endif;
-                            ?>"
-                            href="<?= $menu[$i]['resource'] ?>.php"><?= $menu[$i]['name'] ?></a>
+                            ?>" href="<?= $menu[$i]['resource'] ?>.php"><?= $menu[$i]['name'] ?></a>
                         </span>
                             <?php
-                            if (isset($menu[$i + 1]) && $menu[$i + 1]['level'] == 2 ) : ?>
+                            if (isset($menu[$i + 1]) && $menu[$i + 1]['level'] == 2) : ?>
                                 <ul class="sub-menu">
                                     <?php
                                     $i++;
                                     while ($menu[$i]['level'] == 2) : ?>
                                         <li class="sub-menu__list-item">
-                                            <a class="sub-menu__link"
-                                               href="<?= $menu[$i]['resource'] ?>"><?= $menu[$i]['name'] ?></a>
+                                            <a class="sub-menu__link" href="<?= $menu[$i]['resource'] ?>"><?= $menu[$i]['name'] ?></a>
                                         </li>
                                         <?php
                                         $i++;

@@ -50,12 +50,21 @@ function getCategories($conn)
 function extendMenu($titles, $array, $afterItem)
 {
     $menu = [];
-    foreach ($titles as $resource => $name) {
-        $menu[] = [
-            'name' => $name,
-            'resource' => $resource,
-            'level' => 1
-        ];
+    foreach ($titles as $key => $value) {
+        // для случаев, когда мы формируем впервые и передаем сюда $titles из конфига
+        if (! is_array($value)) {
+            $menu[] = [
+                'name' => $value,
+                'resource' => $key,
+                'level' => 1
+            ];
+        } else { // когда меню уже сформировано и надо просто его расширить
+            $menu[] = [
+                'name' => $value['name'],
+                'resource' => $value['resource'],
+                'level' => $value['level']
+            ];
+        }
     }
 
     $submenu = [];
